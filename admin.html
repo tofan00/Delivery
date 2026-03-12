@@ -1,0 +1,2350 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>لوحة الإدارة</title>
+
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --primary:#111111;
+      --accent:#ff6b35;
+      --accent-2:#ff875c;
+      --line:#eceff4;
+      --success:#12b76a;
+      --warning:#f59e0b;
+      --danger:#ef4444;
+      --info:#3b82f6;
+      --shadow:0 10px 30px rgba(17,24,39,.08);
+    }
+
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    html,body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Arial,"Tajawal",sans-serif;
+      overflow-x:hidden;
+    }
+
+    button,input,select,textarea{
+      font-family:inherit;
+    }
+
+    .app{
+      max-width:520px;
+      min-height:100vh;
+      margin:0 auto;
+      padding-bottom:100px;
+      background:var(--bg);
+    }
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:60;
+      background:rgba(245,247,251,.92);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(0,0,0,.05);
+      padding:14px;
+    }
+
+    .topbar-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .icon-btn{
+      width:42px;
+      height:42px;
+      border:none;
+      background:#fff;
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      cursor:pointer;
+      font-size:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .page-title{
+      margin:0;
+      font-size:18px;
+      font-weight:900;
+    }
+
+    .section{
+      padding:14px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      border:1px solid #f1f4f9;
+      padding:16px;
+    }
+
+    .hero{
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:#fff;
+      border-radius:28px;
+      padding:20px;
+      box-shadow:0 18px 40px rgba(255,107,53,.22);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      left:-30px;
+      bottom:-30px;
+      width:140px;
+      height:140px;
+      border-radius:50%;
+      background:rgba(255,255,255,.10);
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      right:-20px;
+      top:-20px;
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+    }
+
+    .hero-content{
+      position:relative;
+      z-index:2;
+    }
+
+    .hero h2{
+      margin:0;
+      font-size:24px;
+      font-weight:900;
+      line-height:1.5;
+    }
+
+    .hero p{
+      margin:10px 0 0;
+      font-size:13px;
+      line-height:1.9;
+      color:rgba(255,255,255,.93);
+    }
+
+    .tabs{
+      display:flex;
+      gap:10px;
+      padding:0 14px;
+      overflow:auto;
+      scrollbar-width:none;
+    }
+
+    .tabs::-webkit-scrollbar{
+      display:none;
+    }
+
+    .tab-btn{
+      border:none;
+      background:#fff;
+      color:#222;
+      padding:12px 16px;
+      border-radius:999px;
+      white-space:nowrap;
+      box-shadow:var(--shadow);
+      font-size:13px;
+      cursor:pointer;
+      border:1px solid #f0f2f7;
+    }
+
+    .tab-btn.active{
+      background:#111;
+      color:#fff;
+    }
+
+    .section-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .section-head h3{
+      margin:0;
+      font-size:17px;
+      font-weight:900;
+    }
+
+    .section-head span{
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .form-grid{
+      display:grid;
+      gap:12px;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:12px;
+    }
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .stat-card{
+      background:#fff;
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      border:1px solid #f1f4f9;
+      padding:14px;
+    }
+
+    .stat-card .label{
+      color:var(--muted);
+      font-size:12px;
+      margin-bottom:6px;
+    }
+
+    .stat-card .value{
+      font-size:22px;
+      font-weight:900;
+      line-height:1.4;
+    }
+
+    .stat-card .mini{
+      margin-top:6px;
+      font-size:12px;
+      color:#4b5563;
+    }
+
+    .input-group label{
+      display:block;
+      font-size:13px;
+      margin-bottom:8px;
+      color:#222;
+      font-weight:700;
+    }
+
+    .input,.select,.textarea{
+      width:100%;
+      border:1px solid #e8edf5;
+      background:#f9fbff;
+      outline:none;
+      font-size:14px;
+      color:#111;
+      border-radius:16px;
+      padding:0 14px;
+    }
+
+    .input,.select{
+      height:50px;
+    }
+
+    .textarea{
+      min-height:100px;
+      resize:none;
+      padding-top:14px;
+      padding-bottom:14px;
+    }
+
+    .input:focus,.select:focus,.textarea:focus{
+      border-color:#ffb397;
+      background:#fff;
+    }
+
+    .btn{
+      border:none;
+      border-radius:18px;
+      padding:14px 16px;
+      font-size:14px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .btn-full{
+      width:100%;
+    }
+
+    .btn-primary{
+      background:var(--accent);
+      color:#fff;
+      box-shadow:0 16px 30px rgba(255,107,53,.22);
+    }
+
+    .btn-dark{
+      background:#111;
+      color:#fff;
+    }
+
+    .btn-light{
+      background:#f6f7fb;
+      color:#111;
+      border:1px solid var(--line);
+    }
+
+    .btn-danger{
+      background:var(--danger);
+      color:#fff;
+    }
+
+    .btn-success{
+      background:var(--success);
+      color:#fff;
+    }
+
+    .hidden{
+      display:none !important;
+    }
+
+    .list{
+      display:grid;
+      gap:12px;
+    }
+
+    .item-card{
+      background:#fff;
+      border-radius:22px;
+      border:1px solid #eef1f6;
+      box-shadow:var(--shadow);
+      padding:14px;
+    }
+
+    .item-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
+    }
+
+    .item-title{
+      margin:0;
+      font-size:15px;
+      font-weight:900;
+      line-height:1.6;
+    }
+
+    .item-sub{
+      margin-top:5px;
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .badge{
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .badge.active{ background:#dcfce7; color:#166534; }
+    .badge.inactive{ background:#f3f4f6; color:#374151; }
+    .badge.pending{ background:#fff4db; color:#a16207; }
+    .badge.accepted{ background:#dcfce7; color:#166534; }
+    .badge.rejected{ background:#fee2e2; color:#991b1b; }
+    .badge.preparing{ background:#dbeafe; color:#1d4ed8; }
+    .badge.ready{ background:#e0f2fe; color:#0369a1; }
+    .badge.on_delivery{ background:#ede9fe; color:#6d28d9; }
+    .badge.delivered{ background:#dcfce7; color:#166534; }
+    .badge.cancelled{ background:#f3f4f6; color:#374151; }
+    .badge.unpaid{ background:#fee2e2; color:#991b1b; }
+    .badge.partial_paid{ background:#fff7ed; color:#c2410c; }
+    .badge.paid{ background:#dcfce7; color:#166534; }
+    .badge.cod{ background:#e0f2fe; color:#075985; }
+    .badge.proof_review{ background:#fef3c7; color:#92400e; }
+    .badge.proof_rejected{ background:#fee2e2; color:#991b1b; }
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-bottom:12px;
+    }
+
+    .mini-card{
+      background:#f8f9fc;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:12px;
+    }
+
+    .mini-card .label{
+      color:var(--muted);
+      font-size:11px;
+      margin-bottom:6px;
+    }
+
+    .mini-card .value{
+      color:#111;
+      font-size:13px;
+      font-weight:800;
+      line-height:1.7;
+      word-break:break-word;
+    }
+
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .upload-box{
+      border:2px dashed #d9dee8;
+      background:#fafcff;
+      border-radius:20px;
+      padding:18px;
+      text-align:center;
+    }
+
+    .upload-box input{
+      display:none;
+    }
+
+    .upload-btn{
+      display:inline-block;
+      background:#111;
+      color:#fff;
+      border-radius:16px;
+      padding:12px 16px;
+      font-size:13px;
+      font-weight:800;
+      cursor:pointer;
+      margin-top:10px;
+    }
+
+    .file-name{
+      margin-top:10px; 
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.8;
+      word-break:break-word;
+    }
+
+    .method-field-row{
+      display:grid;
+      grid-template-columns:1.2fr 1fr .8fr .6fr auto;
+      gap:8px;
+      align-items:end;
+      margin-bottom:10px;
+    }
+
+    .checkbox-wrap{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      height:50px;
+      background:#f9fbff;
+      border:1px solid #e8edf5;
+      border-radius:16px;
+      padding:0 12px;
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .empty-msg{
+      text-align:center;
+      color:var(--muted);
+      line-height:1.9;
+      font-size:13px;
+      background:#fff;
+      padding:24px 16px;
+      border-radius:20px;
+      border:1px solid #eef1f6;
+    }
+
+    .sheet{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.34);
+      display:none;
+      align-items:flex-end;
+      justify-content:center;
+      z-index:120;
+    }
+
+    .sheet.show{
+      display:flex;
+    }
+
+    .sheet-panel{
+      width:min(100%,520px);
+      max-height:92vh;
+      overflow:auto;
+      background:#fff;
+      border-radius:28px 28px 0 0;
+      padding:14px 14px 24px;
+      animation:up .25s ease;
+    }
+
+    @keyframes up{
+      from{transform:translateY(20px); opacity:.6}
+      to{transform:translateY(0); opacity:1}
+    }
+
+    .sheet-handle{
+      width:60px;
+      height:6px;
+      border-radius:999px;
+      background:#d1d5db;
+      margin:6px auto 14px;
+    }
+
+    .toast{
+      position:fixed;
+      top:18px;
+      left:50%;
+      transform:translateX(-50%);
+      background:#111;
+      color:#fff;
+      padding:13px 16px;
+      border-radius:14px;
+      font-size:13px;
+      z-index:200;
+      display:none;
+      box-shadow:var(--shadow);
+      max-width:90%;
+      text-align:center;
+    }
+
+    .toast.show{
+      display:block;
+      animation:fadeToast 2.5s ease forwards;
+    }
+
+    @keyframes fadeToast{
+      0%{opacity:0; transform:translateX(-50%) translateY(-8px)}
+      10%{opacity:1; transform:translateX(-50%) translateY(0)}
+      85%{opacity:1; transform:translateX(-50%) translateY(0)}
+      100%{opacity:0; transform:translateX(-50%) translateY(-8px)}
+    }
+
+    .bottom-nav{
+      position:fixed;
+      left:50%;
+      bottom:12px;
+      transform:translateX(-50%);
+      width:min(94%,520px);
+      background:rgba(255,255,255,.96);
+      backdrop-filter:blur(14px);
+      border:1px solid rgba(0,0,0,.05);
+      box-shadow:0 12px 40px rgba(17,24,39,.12);
+      border-radius:24px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      padding:10px;
+      z-index:90;
+    }
+
+    .nav-item{
+      border:none;
+      background:transparent;
+      padding:10px 8px;
+      border-radius:18px;
+      cursor:pointer;
+      font-size:12px;
+      color:#444;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+    }
+
+    .nav-item.active{
+      background:#111;
+      color:#fff;
+    }
+
+    .proof-img{
+      width:100%;
+      border-radius:18px;
+      margin-top:10px;
+      border:1px solid #e5e7eb;
+    }
+
+    @media (max-width:420px){
+      .grid-2,.grid-3,.stats-grid,.mini-grid,.actions{
+        grid-template-columns:1fr;
+      }
+
+      .method-field-row{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <button class="icon-btn" id="backBtn">←</button>
+        <h1 class="page-title">لوحة الإدارة</h1>
+        <button class="icon-btn" id="refreshBtn">⟳</button>
+      </div>
+    </header>
+
+    <section class="section" id="authSection">
+      <div class="hero">
+        <div class="hero-content">
+          <h2>دخول الأدمن</h2>
+          <p>ادخل إلى لوحة التحكم لإدارة الموقع والطلبات وطرق الدفع والإحصائيات.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="loginSection">
+      <div class="card">
+        <div class="section-head">
+          <h3>تسجيل دخول الأدمن</h3>
+          <span>البريد وكلمة المرور</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="input-group">
+            <label>البريد الإلكتروني</label>
+            <input class="input" id="adminEmail" placeholder="admin@email.com">
+          </div>
+
+          <div class="input-group">
+            <label>كلمة المرور</label>
+            <input type="password" class="input" id="adminPassword" placeholder="********">
+          </div>
+
+          <button class="btn btn-dark btn-full" id="adminLoginBtn">دخول</button>
+          <button class="btn btn-light btn-full" id="adminForgotBtn">استرداد كلمة المرور</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hidden" id="setupSection">
+      <div class="card">
+        <div class="section-head">
+          <h3>إعداد الأدمن الأول</h3>
+          <span>إجباري لأول مرة</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="input-group">
+            <label>اسم الأدمن</label>
+            <input class="input" id="setupAdminName" placeholder="اسم الأدمن">
+          </div>
+
+          <div class="input-group">
+            <label>البريد الإلكتروني الجديد</label>
+            <input class="input" id="setupAdminEmail" placeholder="admin@email.com">
+          </div>
+
+          <div class="input-group">
+            <label>رقم الهاتف</label>
+            <input class="input" id="setupAdminPhone" placeholder="07xxxxxxxx">
+          </div>
+
+          <div class="input-group">
+            <label>كلمة المرور الجديدة</label>
+            <input type="password" class="input" id="setupAdminPassword" placeholder="6 أحرف أو أكثر">
+          </div>
+
+          <button class="btn btn-primary btn-full" id="completeSetupBtn">إكمال الإعداد</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hidden" id="dashboardHero">
+      <div class="hero">
+        <div class="hero-content">
+          <h2 id="dashboardTitle">مرحبًا يا أدمن</h2>
+          <p id="dashboardDesc">يمكنك من هنا إدارة الموقع بالكامل من الجوال بسهولة.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="tabs hidden" id="adminTabs">
+      <button class="tab-btn active" data-tab="dashboard">الرئيسية</button>
+      <button class="tab-btn" data-tab="orders">الطلبات</button>
+      <button class="tab-btn" data-tab="places">الأماكن</button>
+      <button class="tab-btn" data-tab="products">المنتجات</button>
+      <button class="tab-btn" data-tab="routes">المسارات</button>
+      <button class="tab-btn" data-tab="payments">الدفع</button>
+      <button class="tab-btn" data-tab="settings">الإعدادات</button>
+    </div>
+
+    <section class="section hidden admin-tab" id="tab-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="label">إجمالي الطلبات</div>
+          <div class="value" id="statOrders">0</div>
+          <div class="mini">كل الطلبات المسجلة</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">طلبات جديدة</div>
+          <div class="value" id="statPending">0</div>
+          <div class="mini">بانتظار المراجعة</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">طلبات مكتملة</div>
+          <div class="value" id="statDelivered">0</div>
+          <div class="mini">تم تسليمها بنجاح</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">إجمالي المبالغ</div>
+          <div class="value" id="statRevenue">0</div>
+          <div class="mini">مجموع قيمة الطلبات</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hidden admin-tab" id="tab-orders">
+      <div class="card">
+        <div class="section-head">
+          <h3>إدارة الطلبات</h3>
+          <span id="ordersAdminCount">0 طلب</span>
+        </div>
+        <div id="ordersAdminList" class="list"></div>
+        <div id="ordersAdminEmpty" class="empty-msg hidden">لا توجد طلبات حتى الآن.</div>
+      </div>
+    </section>
+
+    <section class="section hidden admin-tab" id="tab-places">
+      <div class="card">
+        <div class="section-head">
+          <h3>إضافة مكان</h3>
+          <span>مطعم / متجر / توصيل</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="input-group">
+            <label>اسم المكان</label>
+            <input class="input" id="placeNameInput" placeholder="اسم المكان">
+          </div>
+
+          <div class="grid-2">
+            <div class="input-group">
+              <label>نوع المكان</label>
+              <select class="select" id="placeTypeInput">
+                <option value="restaurant">مطعم</option>
+                <option value="store">متجر</option>
+                <option value="delivery">توصيل</option>
+                <option value="link">رابط</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label>نوع العرض</label>
+              <select class="select" id="placeModeInput">
+                <option value="products">منتجات</option>
+                <option value="delivery">توصيل</option>
+                <option value="link">رابط خارجي</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>الوصف</label>
+            <textarea class="textarea" id="placeDescriptionInput" placeholder="وصف المكان"></textarea>
+          </div>
+
+          <div class="input-group">
+            <label>الرابط الخارجي</label>
+            <input class="input" id="placeLinkInput" placeholder="يوضع فقط إذا كان النوع رابط">
+          </div>
+
+          <div class="upload-box">
+            <div style="font-size:16px; font-weight:900;">صورة المكان</div>
+            <div class="file-name">ارفع صورة من جهازك.</div>
+            <label class="upload-btn" for="placeImageFile">اختيار صورة</label>
+            <input type="file" id="placeImageFile" accept="image/*">
+            <div class="file-name" id="placeImageFileName">لم يتم اختيار ملف بعد</div>
+          </div>
+
+          <button class="btn btn-primary btn-full" id="savePlaceBtn">حفظ المكان</button>
+        </div>
+      </div>
+
+      <div style="height:14px;"></div>
+
+      <div class="card">
+        <div class="section-head">
+          <h3>الأماكن الحالية</h3>
+          <span id="placesCountAdmin">0 عنصر</span>
+        </div>
+        <div id="placesListAdmin" class="list"></div>
+        <div id="placesEmptyAdmin" class="empty-msg hidden">لا توجد أماكن مضافة.</div>
+      </div>
+    </section>
+
+    <section class="section hidden admin-tab" id="tab-products">
+      <div class="card">
+        <div class="section-head">
+          <h3>إضافة منتج</h3>
+          <span>يرتبط بمكان</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="input-group">
+            <label>المكان</label>
+            <select class="select" id="productPlaceSelect"></select>
+          </div>
+
+          <div class="input-group">
+            <label>اسم المنتج</label>
+            <input class="input" id="productNameInput" placeholder="اسم المنتج">
+          </div>
+
+          <div class="grid-2">
+            <div class="input-group">
+              <label>السعر</label>
+              <input type="number" class="input" id="productPriceInput" placeholder="0">
+            </div>
+            <div class="input-group">
+              <label>الحالة</label>
+              <select class="select" id="productActiveInput">
+                <option value="true">متاح</option>
+                <option value="false">غير متاح</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>الوصف</label>
+            <textarea class="textarea" id="productDescriptionInput" placeholder="وصف المنتج"></textarea>
+          </div>
+
+          <button class="btn btn-primary btn-full" id="saveProductBtn">حفظ المنتج</button>
+        </div>
+      </div>
+
+      <div style="height:14px;"></div>
+
+      <div class="card">
+        <div class="section-head">
+          <h3>المنتجات الحالية</h3>
+          <span id="productsCountAdmin">0 منتج</span>
+        </div>
+        <div id="productsListAdmin" class="list"></div>
+        <div id="productsEmptyAdmin" class="empty-msg hidden">لا توجد منتجات مضافة.</div>
+      </div>
+    </section>
+
+    <section class="section hidden admin-tab" id="tab-routes">
+      <div class="card">
+        <div class="section-head">
+          <h3>إضافة مسار توصيل</h3>
+          <span>من وإلى مع السعر</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="input-group">
+            <label>المكان</label>
+            <select class="select" id="routePlaceSelect"></select>
+          </div>
+
+          <div class="grid-2">
+            <div class="input-group">
+              <label>من منطقة</label>
+              <input class="input" id="routeFromInput" placeholder="مثال: غزة">
+            </div>
+            <div class="input-group">
+              <label>إلى منطقة</label>
+              <input class="input" id="routeToInput" placeholder="مثال: خانيونس">
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="input-group">
+              <label>السعر</label>
+              <input type="number" class="input" id="routePriceInput" placeholder="0">
+            </div>
+            <div class="input-group">
+              <label>مدة التوصيل</label>
+              <input class="input" id="routeTimeInput" placeholder="مثال: 60 دقيقة">
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="checkbox-wrap">
+              <input type="checkbox" id="allowFullInput" checked>
+              <label for="allowFullInput">السماح بالدفع الكامل</label>
+            </div>
+            <div class="checkbox-wrap">
+              <input type="checkbox" id="allowCodInput" checked>
+              <label for="allowCodInput">السماح بالدفع عند التسليم</label>
+            </div>
+          </div>
+
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="allowDepositInput">
+            <label for="allowDepositInput">السماح بدفع عربون</label>
+          </div>
+
+          <div class="grid-2">
+            <div class="input-group">
+              <label>نوع العربون</label>
+              <select class="select" id="depositTypeInput">
+                <option value="fixed">مبلغ ثابت</option>
+                <option value="percent">نسبة مئوية</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label>قيمة العربون</label>
+              <input type="number" class="input" id="depositValueInput" placeholder="0">
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-full" id="saveRouteBtn">حفظ المسار</button>
+        </div>
+      </div>
+
+      <div style="height:14px;"></div>
+
+      <div class="card">
+        <div class="section-head">
+          <h3>المسارات الحالية</h3>
+          <span id="routesCountAdmin">0 مسار</span>
+        </div>
+        <div id="routesListAdmin" class="list"></div>
+        <div id="routesEmptyAdmin" class="empty-msg hidden">لا توجد مسارات مضافة.</div>
+      </div>
+    </section>
+
+    <section class="section hidden admin-tab" id="tab-payments">
+      <div class="card">
+        <div class="section-head">
+          <h3>إضافة طريقة دفع</h3>
+          <span>مع حقول ديناميكية</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="input-group">
+            <label>اسم طريقة الدفع</label>
+            <input class="input" id="methodNameInput" placeholder="مثال: زين كاش">
+          </div>
+
+          <div class="input-group">
+            <label>تعليمات طريقة الدفع</label>
+            <textarea class="textarea" id="methodInstructionsInput" placeholder="اكتب تعليمات الدفع هنا"></textarea>
+          </div>
+
+          <div class="grid-2">
+            <div class="checkbox-wrap">
+              <input type="checkbox" id="methodRequiresProofInput" checked>
+              <label for="methodRequiresProofInput">تتطلب إثبات دفع</label>
+            </div>
+            <div class="checkbox-wrap">
+              <input type="checkbox" id="methodIsActiveInput" checked>
+              <label for="methodIsActiveInput">الطريقة مفعلة</label>
+            </div>
+          </div>
+
+          <div class="upload-box">
+            <div style="font-size:16px; font-weight:900;">صورة طريقة الدفع</div>
+            <div class="file-name">ستظهر بجانب اسم الطريقة للعميل.</div>
+            <label class="upload-btn" for="methodImageFile">اختيار صورة</label>
+            <input type="file" id="methodImageFile" accept="image/*">
+            <div class="file-name" id="methodImageFileName">لم يتم اختيار ملف بعد</div>
+          </div>
+
+          <div class="card" style="padding:12px; background:#f9fbff;">
+            <div class="section-head" style="margin-bottom:10px;">
+              <h3 style="font-size:15px;">حقول الطريقة</h3>
+              <button class="btn btn-light" type="button" id="addFieldBtn">إضافة حقل</button>
+            </div>
+            <div id="methodFieldsWrap"></div>
+          </div>
+
+          <button class="btn btn-primary btn-full" id="saveMethodBtn">حفظ طريقة الدفع</button>
+        </div>
+      </div>
+
+      <div style="height:14px;"></div>
+
+      <div class="card">
+        <div class="section-head">
+          <h3>طرق الدفع الحالية</h3>
+          <span id="methodsCountAdmin">0 طريقة</span>
+        </div>
+        <div id="methodsListAdmin" class="list"></div>
+        <div id="methodsEmptyAdmin" class="empty-msg hidden">لا توجد طرق دفع مضافة.</div>
+      </div>
+    </section>
+
+    <section class="section hidden admin-tab" id="tab-settings">
+      <div class="card">
+        <div class="section-head">
+          <h3>إعدادات الموقع</h3>
+          <span>الاسم والشعار</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="input-group">
+            <label>اسم الموقع</label>
+            <input class="input" id="siteNameInput" placeholder="اسم الموقع">
+          </div>
+
+          <div class="input-group">
+            <label>وصف الموقع</label>
+            <textarea class="textarea" id="siteDescriptionInput" placeholder="وصف مختصر للموقع"></textarea>
+          </div>
+
+          <div class="upload-box">
+            <div style="font-size:16px; font-weight:900;">شعار الموقع</div>
+            <div class="file-name">ارفع شعارًا جديدًا من الجهاز.</div>
+            <label class="upload-btn" for="siteLogoFile">اختيار صورة</label>
+            <input type="file" id="siteLogoFile" accept="image/*">
+            <div class="file-name" id="siteLogoFileName">لم يتم اختيار ملف بعد</div>
+          </div>
+
+          <button class="btn btn-primary btn-full" id="saveSiteSettingsBtn">حفظ الإعدادات</button>
+          <button class="btn btn-light btn-full" id="logoutAdminBtn">تسجيل خروج الأدمن</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-item" id="navHome">
+      <span>🏠</span>
+      <span>الرئيسية</span>
+    </button>
+    <button class="nav-item" id="navOrders">
+      <span>📦</span>
+      <span>طلباتي</span>
+    </button>
+    <button class="nav-item active" id="navAdmin">
+      <span>⚙️</span>
+      <span>الإدارة</span>
+    </button>
+  </nav>
+
+  <div class="sheet" id="orderSheet">
+    <div class="sheet-panel">
+      <div class="sheet-handle"></div>
+
+      <div class="section-head">
+        <h3>تفاصيل الطلب</h3>
+        <span id="sheetOrderCode">#0000</span>
+      </div>
+
+      <div class="mini-grid">
+        <div class="mini-card">
+          <div class="label">العميل</div>
+          <div class="value" id="sheetCustomer">-</div>
+        </div>
+        <div class="mini-card">
+          <div class="label">المكان</div>
+          <div class="value" id="sheetPlace">-</div>
+        </div>
+        <div class="mini-card">
+          <div class="label">الإجمالي</div>
+          <div class="value" id="sheetTotal">-</div>
+        </div>
+        <div class="mini-card">
+          <div class="label">الدفع</div>
+          <div class="value" id="sheetPayment">-</div>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="input-group">
+          <label>حالة الطلب</label>
+          <select class="select" id="sheetOrderStatusSelect">
+            <option value="pending">قيد المراجعة</option>
+            <option value="accepted">مقبول</option>
+            <option value="rejected">مرفوض</option>
+            <option value="preparing">جاري التجهيز</option>
+            <option value="ready">جاهز</option>
+            <option value="on_delivery">قيد التوصيل</option>
+            <option value="delivered">تم التسليم</option>
+            <option value="cancelled">ملغي</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>حالة الدفع</label>
+          <select class="select" id="sheetPaymentStatusSelect">
+            <option value="unpaid">غير مدفوع</option>
+            <option value="partial_paid">مدفوع عربون</option>
+            <option value="paid">مدفوع كامل</option>
+            <option value="cod">الدفع عند التسليم</option>
+            <option value="proof_review">الإثبات قيد المراجعة</option>
+            <option value="proof_rejected">الإثبات مرفوض</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>ملاحظة الأدمن</label>
+          <textarea class="textarea" id="sheetAdminNote" placeholder="ملاحظة داخلية أو سبب الرفض"></textarea>
+        </div>
+
+        <div id="sheetProofBox" class="hidden">
+          <div class="section-head">
+            <h3 style="font-size:15px;">إثبات الدفع</h3>
+            <span>المرفوع من العميل</span>
+          </div>
+          <img id="sheetProofImage" class="proof-img" src="" alt="proof">
+        </div>
+
+        <button class="btn btn-primary btn-full" id="saveOrderStatusBtn">حفظ التعديلات</button>
+        <button class="btn btn-light btn-full" id="closeOrderSheetBtn">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      sendPasswordResetEmail,
+      onAuthStateChanged,
+      signOut,
+      createUserWithEmailAndPassword,
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      addDoc,
+      doc,
+      getDoc,
+      setDoc,
+      updateDoc,
+      deleteDoc,
+      query,
+      where,
+      serverTimestamp,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    import {
+      getStorage,
+      ref,
+      uploadBytes,
+      getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyComA4PXYI5uFqvHw4ULvwqVNkto9zlcLo",
+      authDomain: "vip-2-4a27a.firebaseapp.com",
+      databaseURL: "https://vip-2-4a27a-default-rtdb.firebaseio.com",
+      projectId: "vip-2-4a27a",
+      storageBucket: "vip-2-4a27a.firebasestorage.app",
+      messagingSenderId: "576598982615",
+      appId: "1:576598982615:web:35c6242b2a5ffa22715592",
+      measurementId: "G-NRZ2XSPWCE"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    const authSection = document.getElementById("authSection");
+    const loginSection = document.getElementById("loginSection");
+    const setupSection = document.getElementById("setupSection");
+    const dashboardHero = document.getElementById("dashboardHero");
+    const adminTabs = document.getElementById("adminTabs");
+
+    const adminEmail = document.getElementById("adminEmail");
+    const adminPassword = document.getElementById("adminPassword");
+    const adminLoginBtn = document.getElementById("adminLoginBtn");
+    const adminForgotBtn = document.getElementById("adminForgotBtn");
+
+    const setupAdminName = document.getElementById("setupAdminName");
+    const setupAdminEmail = document.getElementById("setupAdminEmail");
+    const setupAdminPhone = document.getElementById("setupAdminPhone");
+    const setupAdminPassword = document.getElementById("setupAdminPassword");
+    const completeSetupBtn = document.getElementById("completeSetupBtn");
+
+    const dashboardTitle = document.getElementById("dashboardTitle");
+    const dashboardDesc = document.getElementById("dashboardDesc");
+
+    const statOrders = document.getElementById("statOrders");
+    const statPending = document.getElementById("statPending");
+    const statDelivered = document.getElementById("statDelivered");
+    const statRevenue = document.getElementById("statRevenue");
+
+    const ordersAdminList = document.getElementById("ordersAdminList");
+    const ordersAdminCount = document.getElementById("ordersAdminCount");
+    const ordersAdminEmpty = document.getElementById("ordersAdminEmpty");
+
+    const placeNameInput = document.getElementById("placeNameInput");
+    const placeTypeInput = document.getElementById("placeTypeInput");
+    const placeModeInput = document.getElementById("placeModeInput");
+    const placeDescriptionInput = document.getElementById("placeDescriptionInput");
+    const placeLinkInput = document.getElementById("placeLinkInput");
+    const placeImageFile = document.getElementById("placeImageFile");
+    const placeImageFileName = document.getElementById("placeImageFileName");
+    const savePlaceBtn = document.getElementById("savePlaceBtn");
+    const placesListAdmin = document.getElementById("placesListAdmin");
+    const placesCountAdmin = document.getElementById("placesCountAdmin");
+    const placesEmptyAdmin = document.getElementById("placesEmptyAdmin");
+
+    const productPlaceSelect = document.getElementById("productPlaceSelect");
+    const productNameInput = document.getElementById("productNameInput");
+    const productPriceInput = document.getElementById("productPriceInput");
+    const productActiveInput = document.getElementById("productActiveInput");
+    const productDescriptionInput = document.getElementById("productDescriptionInput");
+    const saveProductBtn = document.getElementById("saveProductBtn");
+    const productsListAdmin = document.getElementById("productsListAdmin");
+    const productsCountAdmin = document.getElementById("productsCountAdmin");
+    const productsEmptyAdmin = document.getElementById("productsEmptyAdmin");
+
+    const routePlaceSelect = document.getElementById("routePlaceSelect");
+    const routeFromInput = document.getElementById("routeFromInput");
+    const routeToInput = document.getElementById("routeToInput");
+    const routePriceInput = document.getElementById("routePriceInput");
+    const routeTimeInput = document.getElementById("routeTimeInput");
+    const allowFullInput = document.getElementById("allowFullInput");
+    const allowCodInput = document.getElementById("allowCodInput");
+    const allowDepositInput = document.getElementById("allowDepositInput");
+    const depositTypeInput = document.getElementById("depositTypeInput");
+    const depositValueInput = document.getElementById("depositValueInput");
+    const saveRouteBtn = document.getElementById("saveRouteBtn");
+    const routesListAdmin = document.getElementById("routesListAdmin");
+    const routesCountAdmin = document.getElementById("routesCountAdmin");
+    const routesEmptyAdmin = document.getElementById("routesEmptyAdmin");
+
+    const methodNameInput = document.getElementById("methodNameInput");
+    const methodInstructionsInput = document.getElementById("methodInstructionsInput");
+    const methodRequiresProofInput = document.getElementById("methodRequiresProofInput");
+    const methodIsActiveInput = document.getElementById("methodIsActiveInput");
+    const methodImageFile = document.getElementById("methodImageFile");
+    const methodImageFileName = document.getElementById("methodImageFileName");
+    const methodFieldsWrap = document.getElementById("methodFieldsWrap");
+    const addFieldBtn = document.getElementById("addFieldBtn");
+    const saveMethodBtn = document.getElementById("saveMethodBtn");
+    const methodsListAdmin = document.getElementById("methodsListAdmin");
+    const methodsCountAdmin = document.getElementById("methodsCountAdmin");
+    const methodsEmptyAdmin = document.getElementById("methodsEmptyAdmin");
+
+    const siteNameInput = document.getElementById("siteNameInput");
+    const siteDescriptionInput = document.getElementById("siteDescriptionInput");
+    const siteLogoFile = document.getElementById("siteLogoFile");
+    const siteLogoFileName = document.getElementById("siteLogoFileName");
+    const saveSiteSettingsBtn = document.getElementById("saveSiteSettingsBtn");
+    const logoutAdminBtn = document.getElementById("logoutAdminBtn");
+
+    const orderSheet = document.getElementById("orderSheet");
+    const sheetOrderCode = document.getElementById("sheetOrderCode");
+    const sheetCustomer = document.getElementById("sheetCustomer");
+    const sheetPlace = document.getElementById("sheetPlace");
+    const sheetTotal = document.getElementById("sheetTotal");
+    const sheetPayment = document.getElementById("sheetPayment");
+    const sheetOrderStatusSelect = document.getElementById("sheetOrderStatusSelect");
+    const sheetPaymentStatusSelect = document.getElementById("sheetPaymentStatusSelect");
+    const sheetAdminNote = document.getElementById("sheetAdminNote");
+    const sheetProofBox = document.getElementById("sheetProofBox");
+    const sheetProofImage = document.getElementById("sheetProofImage");
+    const saveOrderStatusBtn = document.getElementById("saveOrderStatusBtn");
+    const closeOrderSheetBtn = document.getElementById("closeOrderSheetBtn");
+
+    const backBtn = document.getElementById("backBtn");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const navHome = document.getElementById("navHome");
+    const navOrders = document.getElementById("navOrders");
+    const navAdmin = document.getElementById("navAdmin");
+    const toast = document.getElementById("toast");
+
+    let currentAdmin = null;
+    let currentAdminProfile = null;
+    let allOrders = [];
+    let allPlaces = [];
+    let allProducts = [];
+    let allRoutes = [];
+    let allMethods = [];
+    let selectedOrder = null;
+
+    function showToast(message){
+      toast.textContent = message;
+      toast.classList.remove("show");
+      void toast.offsetWidth;
+      toast.classList.add("show");
+    }
+
+    function money(value){
+      return `${Number(value || 0)} ₪`;
+    }
+
+    function formatDate(value){
+      try{
+        if(!value) return "-";
+        if(value.seconds) return new Date(value.seconds * 1000).toLocaleString("ar-EG");
+        return new Date(value).toLocaleString("ar-EG");
+      }catch{
+        return "-";
+      }
+    }
+
+    function getOrderStatusLabel(status){
+      const map = {
+        pending: "قيد المراجعة",
+        accepted: "مقبول",
+        rejected: "مرفوض",
+        preparing: "جاري التجهيز",
+        ready: "جاهز",
+        on_delivery: "قيد التوصيل",
+        delivered: "تم التسليم",
+        cancelled: "ملغي"
+      };
+      return map[status] || "قيد المراجعة";
+    }
+
+    function getPaymentStatusLabel(status){
+      const map = {
+        unpaid: "غير مدفوع",
+        partial_paid: "مدفوع عربون",
+        paid: "مدفوع كامل",
+        cod: "الدفع عند التسليم",
+        proof_review: "الإثبات قيد المراجعة",
+        proof_rejected: "الإثبات مرفوض"
+      };
+      return map[status] || "-";
+    }
+
+    function getModeLabel(mode){
+      const map = {
+        products: "منتجات",
+        delivery: "توصيل",
+        link: "رابط"
+      };
+      return map[mode] || "-";
+    }
+
+    function getTypeLabel(type){
+      const map = {
+        restaurant: "مطعم",
+        store: "متجر",
+        delivery: "توصيل",
+        link: "رابط"
+      };
+      return map[type] || "-";
+    }
+
+    function getPaymentModeLabel(mode){
+      const map = {
+        full: "دفع كامل",
+        deposit: "عربون",
+        cod: "عند التسليم"
+      };
+      return map[mode] || "-";
+    }
+
+    function activateTab(name){
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.tab === name);
+      });
+      document.querySelectorAll(".admin-tab").forEach(tab => tab.classList.add("hidden"));
+      document.getElementById(`tab-${name}`).classList.remove("hidden");
+    }
+
+    function showLoginMode(){
+      authSection.classList.remove("hidden");
+      loginSection.classList.remove("hidden");
+      setupSection.classList.add("hidden");
+      dashboardHero.classList.add("hidden");
+      adminTabs.classList.add("hidden");
+      document.querySelectorAll(".admin-tab").forEach(tab => tab.classList.add("hidden"));
+    }
+
+    function showSetupMode(){
+      authSection.classList.add("hidden");
+      loginSection.classList.add("hidden");
+      setupSection.classList.remove("hidden");
+      dashboardHero.classList.add("hidden");
+      adminTabs.classList.add("hidden");
+      document.querySelectorAll(".admin-tab").forEach(tab => tab.classList.add("hidden"));
+    }
+
+    function showAdminMode(){
+      authSection.classList.add("hidden");
+      loginSection.classList.add("hidden");
+      setupSection.classList.add("hidden");
+      dashboardHero.classList.remove("hidden");
+      adminTabs.classList.remove("hidden");
+      activateTab("dashboard");
+    }
+
+    async function uploadFileToStorage(file, path){
+      const ext = file.name.split(".").pop() || "jpg";
+      const fileRef = ref(storage, `${path}-${Date.now()}.${ext}`);
+      await uploadBytes(fileRef, file);
+      return await getDownloadURL(fileRef);
+    }
+
+    async function ensureAdminProfile(user){
+      const userRef = doc(db, "users", user.uid);
+      const snap = await getDoc(userRef);
+
+      if(snap.exists()){
+        currentAdminProfile = snap.data();
+        return currentAdminProfile;
+      }
+
+      currentAdminProfile = {
+        uid: user.uid,
+        name: user.displayName || "Admin",
+        phone: "",
+        email: user.email || "",
+        role: "admin",
+        isActive: true,
+        createdAt: new Date().toISOString()
+      };
+
+      await setDoc(userRef, currentAdminProfile);
+      return currentAdminProfile;
+    }
+
+    async function checkIsAdmin(user){
+      const profile = await ensureAdminProfile(user);
+      return profile.role === "admin";
+    }
+
+    async function loadDashboard(){
+      await Promise.all([
+        loadOrders(),
+        loadPlaces(),
+        loadProducts(),
+        loadRoutes(),
+        loadMethods(),
+        loadSiteSettings()
+      ]);
+
+      dashboardTitle.textContent = `مرحبًا ${currentAdminProfile?.name || "يا أدمن"}`;
+      dashboardDesc.textContent = "يمكنك من هنا إدارة الطلبات والأماكن وطرق الدفع وإعدادات الموقع من الهاتف.";
+      renderStats();
+      fillPlaceSelects();
+    }
+
+    function renderStats(){
+      statOrders.textContent = allOrders.length;
+      statPending.textContent = allOrders.filter(o => o.orderStatus === "pending").length;
+      statDelivered.textContent = allOrders.filter(o => o.orderStatus === "delivered").length;
+      statRevenue.textContent = allOrders.reduce((sum, o) => sum + Number(o.total || 0), 0);
+    }
+
+    async function loadOrders(){
+      allOrders = [];
+      ordersAdminList.innerHTML = "";
+
+      try{
+        const qy = query(collection(db, "orders"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(qy);
+        snapshot.forEach(docSnap => {
+          allOrders.push({ id: docSnap.id, ...docSnap.data() });
+        });
+      } catch (error){
+        console.error(error);
+      }
+
+      ordersAdminCount.textContent = `${allOrders.length} طلب`;
+
+      if(!allOrders.length){
+        ordersAdminEmpty.classList.remove("hidden");
+        return;
+      }
+
+      ordersAdminEmpty.classList.add("hidden");
+
+      allOrders.forEach(order => {
+        const card = document.createElement("div");
+        card.className = "item-card";
+        card.innerHTML = `
+          <div class="item-top">
+            <div>
+              <h4 class="item-title">${order.orderNumber ? "#" + order.orderNumber : "#" + order.id.slice(0,6).toUpperCase()}</h4>
+              <div class="item-sub">${order.customerName || "-"} • ${formatDate(order.createdAt)}</div>
+            </div>
+            <div class="badge ${order.orderStatus || "pending"}">${getOrderStatusLabel(order.orderStatus)}</div>
+          </div>
+
+          <div class="mini-grid">
+            <div class="mini-card">
+              <div class="label">المكان</div>
+              <div class="value">${order.placeName || "-"}</div>
+            </div>
+            <div class="mini-card">
+              <div class="label">الإجمالي</div>
+              <div class="value">${money(order.total)}</div>
+            </div>
+            <div class="mini-card">
+              <div class="label">نوع الدفع</div>
+              <div class="value">${getPaymentModeLabel(order.paymentMode)}</div>
+            </div>
+            <div class="mini-card">
+              <div class="label">حالة الدفع</div>
+              <div class="value"><span class="badge ${order.paymentStatus || "unpaid"}">${getPaymentStatusLabel(order.paymentStatus)}</span></div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-light">عرض / تعديل</button>
+            <button class="btn btn-dark">قبول سريع</button>
+          </div>
+        `;
+
+        const buttons = card.querySelectorAll("button");
+        buttons[0].addEventListener("click", () => openOrderSheet(order));
+        buttons[1].addEventListener("click", async () => {
+          await quickUpdateOrder(order, "accepted");
+        });
+
+        ordersAdminList.appendChild(card);
+      });
+    }
+
+    async function quickUpdateOrder(order, status){
+      try{
+        await updateDoc(doc(db, "orders", order.id), {
+          orderStatus: status
+        });
+
+        await addDoc(collection(db, "order_logs"), {
+          orderId: order.id,
+          oldStatus: order.orderStatus || "",
+          newStatus: status,
+          changedBy: currentAdmin.uid,
+          note: "تحديث سريع من الأدمن",
+          createdAt: serverTimestamp()
+        });
+
+        showToast("تم تحديث حالة الطلب");
+        await loadOrders();
+        renderStats();
+      } catch (error){
+        console.error(error);
+        showToast("فشل تحديث الطلب");
+      }
+    }
+
+    function openOrderSheet(order){
+      selectedOrder = order;
+      sheetOrderCode.textContent = order.orderNumber ? "#" + order.orderNumber : "#" + order.id.slice(0,6).toUpperCase();
+      sheetCustomer.textContent = `${order.customerName || "-"} / ${order.customerPhone || "-"}`;
+      sheetPlace.textContent = order.placeName || "-";
+      sheetTotal.textContent = money(order.total);
+      sheetPayment.textContent = `${getPaymentModeLabel(order.paymentMode)} / ${getPaymentStatusLabel(order.paymentStatus)}`;
+      sheetOrderStatusSelect.value = order.orderStatus || "pending";
+      sheetPaymentStatusSelect.value = order.paymentStatus || "unpaid";
+      sheetAdminNote.value = order.adminNote || "";
+
+      loadPaymentProof(order.id);
+      orderSheet.classList.add("show");
+    }
+
+    async function loadPaymentProof(orderId){
+      sheetProofBox.classList.add("hidden");
+      try{
+        const qy = query(collection(db, "payment_submissions"), where("orderId", "==", orderId));
+        const snapshot = await getDocs(qy);
+        let found = null;
+        snapshot.forEach(docSnap => {
+          if(!found) found = docSnap.data();
+        });
+
+        if(found && found.proofImage){
+          sheetProofImage.src = found.proofImage;
+          sheetProofBox.classList.remove("hidden");
+        }
+      } catch (error){
+        console.error(error);
+      }
+    }
+
+    async function saveOrderChanges(){
+      if(!selectedOrder) return;
+
+      const newOrderStatus = sheetOrderStatusSelect.value;
+      const newPaymentStatus = sheetPaymentStatusSelect.value;
+      const note = sheetAdminNote.value.trim();
+
+      try{
+        await updateDoc(doc(db, "orders", selectedOrder.id), {
+          orderStatus: newOrderStatus,
+          paymentStatus: newPaymentStatus,
+          adminNote: note
+        });
+
+        await addDoc(collection(db, "order_logs"), {
+          orderId: selectedOrder.id,
+          oldStatus: selectedOrder.orderStatus || "",
+          newStatus: newOrderStatus,
+          changedBy: currentAdmin.uid,
+          note: note || "تحديث من الأدمن",
+          createdAt: serverTimestamp()
+        });
+
+        showToast("تم حفظ التعديلات");
+        orderSheet.classList.remove("show");
+        await loadOrders();
+        renderStats();
+      } catch (error){
+        console.error(error);
+        showToast("فشل حفظ التعديلات");
+      }
+    }
+
+    async function loadPlaces(){
+      allPlaces = [];
+      placesListAdmin.innerHTML = "";
+
+      try{
+        const snapshot = await getDocs(collection(db, "places"));
+        snapshot.forEach(docSnap => {
+          allPlaces.push({ id: docSnap.id, ...docSnap.data() });
+        });
+      } catch (error){
+        console.error(error);
+      }
+
+      placesCountAdmin.textContent = `${allPlaces.length} عنصر`;
+
+      if(!allPlaces.length){
+        placesEmptyAdmin.classList.remove("hidden");
+        return;
+      }
+
+      placesEmptyAdmin.classList.add("hidden");
+
+      allPlaces.forEach(place => {
+        const card = document.createElement("div");
+        card.className = "item-card";
+        card.innerHTML = `
+          <div class="item-top">
+            <div>
+              <h4 class="item-title">${place.name || "-"}</h4>
+              <div class="item-sub">${getTypeLabel(place.type)} • ${getModeLabel(place.mode)}</div>
+            </div>
+            <div class="badge ${place.isActive === false ? "inactive" : "active"}">${place.isActive === false ? "معطل" : "مفعل"}</div>
+          </div>
+          <div class="mini-grid">
+            <div class="mini-card">
+              <div class="label">الوصف</div>
+              <div class="value">${place.description || "-"}</div>
+            </div>
+            <div class="mini-card">
+              <div class="label">الرابط</div>
+              <div class="value">${place.externalLink || "-"}</div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-light">تفعيل/تعطيل</button>
+            <button class="btn btn-danger">حذف</button>
+          </div>
+        `;
+
+        const buttons = card.querySelectorAll("button");
+        buttons[0].addEventListener("click", async () => {
+          await updateDoc(doc(db, "places", place.id), { isActive: place.isActive === false ? true : false });
+          await loadPlaces();
+          fillPlaceSelects();
+        });
+        buttons[1].addEventListener("click", async () => {
+          if(!confirm("هل تريد حذف المكان؟")) return;
+          await deleteDoc(doc(db, "places", place.id));
+          showToast("تم حذف المكان");
+          await loadPlaces();
+          fillPlaceSelects();
+        });
+
+        placesListAdmin.appendChild(card);
+      });
+    }
+
+    async function savePlace(){
+      const name = placeNameInput.value.trim();
+      const type = placeTypeInput.value;
+      const mode = placeModeInput.value;
+      const description = placeDescriptionInput.value.trim();
+      const externalLink = placeLinkInput.value.trim();
+      const file = placeImageFile.files[0];
+
+      if(!name){
+        showToast("أدخل اسم المكان");
+        return;
+      }
+
+      savePlaceBtn.disabled = true;
+      savePlaceBtn.textContent = "جاري الحفظ...";
+
+      try{
+        let imageUrl = "";
+        if(file){
+          imageUrl = await uploadFileToStorage(file, "places/place");
+        }
+
+        await addDoc(collection(db, "places"), {
+          name,
+          type,
+          mode,
+          description,
+          externalLink,
+          image: imageUrl,
+          isActive: true,
+          createdAt: serverTimestamp()
+        });
+
+        placeNameInput.value = "";
+        placeDescriptionInput.value = "";
+        placeLinkInput.value = "";
+        placeImageFile.value = "";
+        placeImageFileName.textContent = "لم يتم اختيار ملف بعد";
+
+        showToast("تم حفظ المكان");
+        await loadPlaces();
+        fillPlaceSelects();
+      } catch (error){
+        console.error(error);
+        showToast("فشل حفظ المكان");
+      } finally {
+        savePlaceBtn.disabled = false;
+        savePlaceBtn.textContent = "حفظ المكان";
+      }
+    }
+
+    function fillPlaceSelects(){
+      const options = `<option value="">اختر المكان</option>` + allPlaces.map(place => `<option value="${place.id}">${place.name}</option>`).join("");
+      productPlaceSelect.innerHTML = options;
+      routePlaceSelect.innerHTML = options;
+    }
+
+    async function loadProducts(){
+      allProducts = [];
+      productsListAdmin.innerHTML = "";
+
+      try{
+        const snapshot = await getDocs(collection(db, "products"));
+        snapshot.forEach(docSnap => {
+          allProducts.push({ id: docSnap.id, ...docSnap.data() });
+        });
+      } catch (error){
+        console.error(error);
+      }
+
+      productsCountAdmin.textContent = `${allProducts.length} منتج`;
+
+      if(!allProducts.length){
+        productsEmptyAdmin.classList.remove("hidden");
+        return;
+      }
+
+      productsEmptyAdmin.classList.add("hidden");
+
+      allProducts.forEach(product => {
+        const place = allPlaces.find(p => p.id === product.placeId);
+        const card = document.createElement("div");
+        card.className = "item-card";
+        card.innerHTML = `
+          <div class="item-top">
+            <div>
+              <h4 class="item-title">${product.name || "-"}</h4>
+              <div class="item-sub">${place?.name || "-"} • ${money(product.price)}</div>
+            </div>
+            <div class="badge ${product.isActive === false ? "inactive" : "active"}">${product.isActive === false ? "معطل" : "مفعل"}</div>
+          </div>
+          <div class="mini-grid">
+            <div class="mini-card">
+              <div class="label">الوصف</div>
+              <div class="value">${product.description || "-"}</div>
+            </div>
+            <div class="mini-card">
+              <div class="label">السعر</div>
+              <div class="value">${money(product.price)}</div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-light">تفعيل/تعطيل</button>
+            <button class="btn btn-danger">حذف</button>
+          </div>
+        `;
+
+        const buttons = card.querySelectorAll("button");
+        buttons[0].addEventListener("click", async () => {
+          await updateDoc(doc(db, "products", product.id), { isActive: product.isActive === false ? true : false });
+          await loadProducts();
+        });
+        buttons[1].addEventListener("click", async () => {
+          if(!confirm("هل تريد حذف المنتج؟")) return;
+          await deleteDoc(doc(db, "products", product.id));
+          showToast("تم حذف المنتج");
+          await loadProducts();
+        });
+
+        productsListAdmin.appendChild(card);
+      });
+    }
+
+    async function saveProduct(){
+      const placeId = productPlaceSelect.value;
+      const name = productNameInput.value.trim();
+      const price = Number(productPriceInput.value || 0);
+      const description = productDescriptionInput.value.trim();
+      const isActive = productActiveInput.value === "true";
+
+      if(!placeId || !name){
+        showToast("اختر المكان وأدخل اسم المنتج");
+        return;
+      }
+
+      try{
+        await addDoc(collection(db, "products"), {
+          placeId,
+          name,
+          price,
+          description,
+          isActive,
+          createdAt: serverTimestamp()
+        });
+
+        productNameInput.value = "";
+        productPriceInput.value = "";
+        productDescriptionInput.value = "";
+        showToast("تم حفظ المنتج");
+        await loadProducts();
+      } catch (error){
+        console.error(error);
+        showToast("فشل حفظ المنتج");
+      }
+    }
+
+    async function loadRoutes(){
+      allRoutes = [];
+      routesListAdmin.innerHTML = "";
+
+      try{
+        const snapshot = await getDocs(collection(db, "delivery_routes"));
+        snapshot.forEach(docSnap => {
+          allRoutes.push({ id: docSnap.id, ...docSnap.data() });
+        });
+      } catch (error){
+        console.error(error);
+      }
+
+      routesCountAdmin.textContent = `${allRoutes.length} مسار`;
+
+      if(!allRoutes.length){
+        routesEmptyAdmin.classList.remove("hidden");
+        return;
+      }
+
+      routesEmptyAdmin.classList.add("hidden");
+
+      allRoutes.forEach(route => {
+        const place = allPlaces.find(p => p.id === route.placeId);
+        const card = document.createElement("div");
+        card.className = "item-card";
+        card.innerHTML = `
+          <div class="item-top">
+            <div>
+              <h4 class="item-title">${route.fromArea || "-"} ← → ${route.toArea || "-"}</h4>
+              <div class="item-sub">${place?.name || "-"} • ${route.estimatedTime || "-"}</div>
+            </div>
+            <div class="badge ${route.isActive === false ? "inactive" : "active"}">${route.isActive === false ? "معطل" : "مفعل"}</div>
+          </div>
+          <div class="mini-grid">
+            <div class="mini-card">
+              <div class="label">السعر</div>
+              <div class="value">${money(route.price)}</div>
+            </div>
+            <div class="mini-card">
+              <div class="label">العربون</div>
+              <div class="value">${route.allowDeposit ? `${route.depositType === "percent" ? "%" : ""}${route.depositValue || 0}` : "غير متاح"}</div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-light">تفعيل/تعطيل</button>
+            <button class="btn btn-danger">حذف</button>
+          </div>
+        `;
+
+        const buttons = card.querySelectorAll("button");
+        buttons[0].addEventListener("click", async () => {
+          await updateDoc(doc(db, "delivery_routes", route.id), { isActive: route.isActive === false ? true : false });
+          await loadRoutes();
+        });
+        buttons[1].addEventListener("click", async () => {
+          if(!confirm("هل تريد حذف المسار؟")) return;
+          await deleteDoc(doc(db, "delivery_routes", route.id));
+          showToast("تم حذف المسار");
+          await loadRoutes();
+        });
+
+        routesListAdmin.appendChild(card);
+      });
+    }
+
+    async function saveRoute(){
+      const placeId = routePlaceSelect.value;
+      const fromArea = routeFromInput.value.trim();
+      const toArea = routeToInput.value.trim();
+      const price = Number(routePriceInput.value || 0);
+      const estimatedTime = routeTimeInput.value.trim();
+      const allowFullPayment = allowFullInput.checked;
+      const allowCod = allowCodInput.checked;
+      const allowDeposit = allowDepositInput.checked;
+      const depositType = depositTypeInput.value;
+      const depositValue = Number(depositValueInput.value || 0);
+
+      if(!placeId || !fromArea || !toArea){
+        showToast("أكمل بيانات المسار");
+        return;
+      }
+
+      try{
+        await addDoc(collection(db, "delivery_routes"), {
+          placeId,
+          fromArea,
+          toArea,
+          price,
+          estimatedTime,
+          allowFullPayment,
+          allowCod,
+          allowDeposit,
+          depositType,
+          depositValue,
+          isActive: true,
+          createdAt: serverTimestamp()
+        });
+
+        routeFromInput.value = "";
+        routeToInput.value = "";
+        routePriceInput.value = "";
+        routeTimeInput.value = "";
+        depositValueInput.value = "";
+        allowDepositInput.checked = false;
+        showToast("تم حفظ المسار");
+        await loadRoutes();
+      } catch (error){
+        console.error(error);
+        showToast("فشل حفظ المسار");
+      }
+    }
+
+    function createMethodFieldRow(data = {}){
+      const row = document.createElement("div");
+      row.className = "method-field-row";
+      row.innerHTML = `
+        <div class="input-group">
+          <label>اسم الحقل</label>
+          <input class="input field-label" placeholder="مثال: رقم العملية" value="${data.label || ""}">
+        </div>
+        <div class="input-group">
+          <label>المفتاح</label>
+          <input class="input field-key" placeholder="operationNumber" value="${data.fieldKey || ""}">
+        </div>
+        <div class="input-group">
+          <label>النوع</label>
+          <select class="select field-type">
+            <option value="text" ${data.type === "text" ? "selected" : ""}>نص</option>
+            <option value="number" ${data.type === "number" ? "selected" : ""}>رقم</option>
+            <option value="textarea" ${data.type === "textarea" ? "selected" : ""}>وصف طويل</option>
+          </select>
+        </div>
+        <div class="checkbox-wrap">
+          <input type="checkbox" class="field-required" ${data.required ? "checked" : ""}>
+          <label>إجباري</label>
+        </div>
+        <button class="btn btn-danger remove-field-btn" type="button">حذف</button>
+      `;
+
+      row.querySelector(".remove-field-btn").addEventListener("click", () => row.remove());
+      methodFieldsWrap.appendChild(row);
+    }
+
+    function collectMethodFields(){
+      const rows = methodFieldsWrap.querySelectorAll(".method-field-row");
+      const fields = [];
+
+      rows.forEach(row => {
+        const label = row.querySelector(".field-label").value.trim();
+        const fieldKey = row.querySelector(".field-key").value.trim();
+        const type = row.querySelector(".field-type").value;
+        const required = row.querySelector(".field-required").checked;
+
+        if(label && fieldKey){
+          fields.push({
+            label,
+            fieldKey,
+            type,
+            required,
+            placeholder: label
+          });
+        }
+      });
+
+      return fields;
+    }
+
+    async function loadMethods(){
+      allMethods = [];
+      methodsListAdmin.innerHTML = "";
+
+      try{
+        const snapshot = await getDocs(collection(db, "payment_methods"));
+        snapshot.forEach(docSnap => {
+          allMethods.push({ id: docSnap.id, ...docSnap.data() });
+        });
+      } catch (error){
+        console.error(error);
+      }
+
+      methodsCountAdmin.textContent = `${allMethods.length} طريقة`;
+
+      if(!allMethods.length){
+        methodsEmptyAdmin.classList.remove("hidden");
+        return;
+      }
+
+      methodsEmptyAdmin.classList.add("hidden");
+
+      allMethods.forEach(method => {
+        const card = document.createElement("div");
+        card.className = "item-card";
+        card.innerHTML = `
+          <div class="item-top">
+            <div>
+              <h4 class="item-title">${method.name || "-"}</h4>
+              <div class="item-sub">${method.instructions || "-"}</div>
+            </div>
+            <div class="badge ${method.isActive === false ? "inactive" : "active"}">${method.isActive === false ? "معطل" : "مفعل"}</div>
+          </div>
+          <div class="mini-grid">
+            <div class="mini-card">
+              <div class="label">إثبات الدفع</div>
+              <div class="value">${method.requiresProof === false ? "غير مطلوب" : "مطلوب"}</div>
+            </div>
+            <div class="mini-card">
+              <div class="label">عدد الحقول</div>
+              <div class="value">${Array.isArray(method.fields) ? method.fields.length : 0}</div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-light">تفعيل/تعطيل</button>
+            <button class="btn btn-danger">حذف</button>
+          </div>
+        `;
+
+        const buttons = card.querySelectorAll("button");
+        buttons[0].addEventListener("click", async () => {
+          await updateDoc(doc(db, "payment_methods", method.id), { isActive: method.isActive === false ? true : false });
+          await loadMethods();
+        });
+        buttons[1].addEventListener("click", async () => {
+          if(!confirm("هل تريد حذف طريقة الدفع؟")) return;
+          await deleteDoc(doc(db, "payment_methods", method.id));
+          showToast("تم حذف طريقة الدفع");
+          await loadMethods();
+        });
+
+        methodsListAdmin.appendChild(card);
+      });
+    }
+
+    async function saveMethod(){
+      const name = methodNameInput.value.trim();
+      const instructions = methodInstructionsInput.value.trim();
+      const requiresProof = methodRequiresProofInput.checked;
+      const isActive = methodIsActiveInput.checked;
+      const file = methodImageFile.files[0];
+      const fields = collectMethodFields();
+
+      if(!name){
+        showToast("أدخل اسم طريقة الدفع");
+        return;
+      }
+
+      saveMethodBtn.disabled = true;
+      saveMethodBtn.textContent = "جاري الحفظ...";
+
+      try{
+        let image = "";
+        if(file){
+          image = await uploadFileToStorage(file, "payments/method");
+        }
+
+        await addDoc(collection(db, "payment_methods"), {
+          name,
+          image,
+          instructions,
+          requiresProof,
+          isActive,
+          fields,
+          createdAt: serverTimestamp()
+        });
+
+        methodNameInput.value = "";
+        methodInstructionsInput.value = "";
+        methodRequiresProofInput.checked = true;
+        methodIsActiveInput.checked = true;
+        methodImageFile.value = "";
+        methodImageFileName.textContent = "لم يتم اختيار ملف بعد";
+        methodFieldsWrap.innerHTML = "";
+
+        showToast("تم حفظ طريقة الدفع");
+        await loadMethods();
+      } catch (error){
+        console.error(error);
+        showToast("فشل حفظ طريقة الدفع");
+      } finally {
+        saveMethodBtn.disabled = false;
+        saveMethodBtn.textContent = "حفظ طريقة الدفع";
+      }
+    }
+
+    async function loadSiteSettings(){
+      try{
+        const snap = await getDoc(doc(db, "settings", "site"));
+        if(snap.exists()){
+          const data = snap.data();
+          siteNameInput.value = data.siteName || "";
+          siteDescriptionInput.value = data.siteDescription || "";
+        }
+      } catch (error){
+        console.error(error);
+      }
+    }
+
+    async function saveSiteSettings(){
+      const siteName = siteNameInput.value.trim();
+      const siteDescription = siteDescriptionInput.value.trim();
+      const file = siteLogoFile.files[0];
+
+      if(!siteName){
+        showToast("أدخل اسم الموقع");
+        return;
+      }
+
+      saveSiteSettingsBtn.disabled = true;
+      saveSiteSettingsBtn.textContent = "جاري الحفظ...";
+
+      try{
+        const oldSnap = await getDoc(doc(db, "settings", "site"));
+        let oldLogo = "";
+        if(oldSnap.exists()){
+          oldLogo = oldSnap.data().siteLogo || "";
+        }
+
+        let siteLogo = oldLogo;
+        if(file){
+          siteLogo = await uploadFileToStorage(file, "settings/logo");
+        }
+
+        await setDoc(doc(db, "settings", "site"), {
+          siteName,
+          siteDescription,
+          siteLogo,
+          updatedAt: serverTimestamp()
+        });
+
+        siteLogoFile.value = "";
+        siteLogoFileName.textContent = "لم يتم اختيار ملف بعد";
+        showToast("تم حفظ إعدادات الموقع");
+      } catch (error){
+        console.error(error);
+        showToast("فشل حفظ الإعدادات");
+      } finally {
+        saveSiteSettingsBtn.disabled = false;
+        saveSiteSettingsBtn.textContent = "حفظ الإعدادات";
+      }
+    }
+
+    async function loginAdmin(){
+      const email = adminEmail.value.trim();
+      const password = adminPassword.value.trim();
+
+      if(!email || !password){
+        showToast("أدخل البريد الإلكتروني وكلمة المرور");
+        return;
+      }
+
+      try{
+        await signInWithEmailAndPassword(auth, email, password);
+        showToast("تم تسجيل الدخول");
+      } catch (error){
+        console.error(error);
+        showToast("فشل تسجيل الدخول");
+      }
+    }
+
+    async function forgotAdminPassword(){
+      const email = adminEmail.value.trim() || prompt("أدخل بريد الأدمن:");
+      if(!email) return;
+
+      try{
+        await sendPasswordResetEmail(auth, email.trim());
+        showToast("تم إرسال رابط استرداد كلمة المرور");
+      } catch (error){
+        console.error(error);
+        showToast("تعذر إرسال رابط الاسترداد");
+      }
+    }
+
+    async function completeFirstAdminSetup(){
+      const name = setupAdminName.value.trim();
+      const email = setupAdminEmail.value.trim();
+      const phone = setupAdminPhone.value.trim();
+      const password = setupAdminPassword.value.trim();
+
+      if(!name || !email || !password){
+        showToast("أكمل بيانات الأدمن الأول");
+        return;
+      }
+
+      if(password.length < 6){
+        showToast("كلمة المرور يجب أن تكون 6 أحرف أو أكثر");
+        return;
+      }
+
+      completeSetupBtn.disabled = true;
+      completeSetupBtn.textContent = "جاري الإعداد...";
+
+      try{
+        await setDoc(doc(db, "settings", "admin"), {
+          defaultAdminEnabled: false,
+          forceAdminSetup: false,
+          mainAdminEmail: email,
+          updatedAt: serverTimestamp()
+        });
+
+        if(currentAdmin){
+          await updateDoc(doc(db, "users", currentAdmin.uid), {
+            name,
+            phone,
+            email,
+            role: "admin",
+            isActive: true
+          });
+        }
+
+        showToast("تم حفظ بيانات الأدمن. أنشئ الحساب الجديد يدويًا من Firebase Auth أو استخدم نفس الحساب الحالي.");
+        await ensureAdminProfile(currentAdmin);
+        await loadDashboard();
+        showAdminMode();
+      } catch (error){
+        console.error(error);
+        showToast("فشل إعداد الأدمن الأول");
+      } finally {
+        completeSetupBtn.disabled = false;
+        completeSetupBtn.textContent = "إكمال الإعداد";
+      }
+    }
+
+    async function handleAdminState(user){
+      currentAdmin = user;
+
+      const isAdmin = await checkIsAdmin(user);
+      if(!isAdmin){
+        showToast("هذا الحساب ليس أدمن");
+        await signOut(auth);
+        return;
+      }
+
+      const adminSettingsSnap = await getDoc(doc(db, "settings", "admin"));
+      const adminSettings = adminSettingsSnap.exists() ? adminSettingsSnap.data() : null;
+
+      if(adminSettings?.forceAdminSetup === true){
+        showSetupMode();
+        return;
+      }
+
+      showAdminMode();
+      await loadDashboard();
+    }
+
+    adminLoginBtn.addEventListener("click", loginAdmin);
+    adminForgotBtn.addEventListener("click", forgotAdminPassword);
+    completeSetupBtn.addEventListener("click", completeFirstAdminSetup);
+
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => activateTab(btn.dataset.tab));
+    });
+
+    placeImageFile.addEventListener("change", () => {
+      placeImageFileName.textContent = placeImageFile.files[0]?.name || "لم يتم اختيار ملف بعد";
+    });
+
+    methodImageFile.addEventListener("change", () => {
+      methodImageFileName.textContent = methodImageFile.files[0]?.name || "لم يتم اختيار ملف بعد";
+    });
+
+    siteLogoFile.addEventListener("change", () => {
+      siteLogoFileName.textContent = siteLogoFile.files[0]?.name || "لم يتم اختيار ملف بعد";
+    });
+
+    savePlaceBtn.addEventListener("click", savePlace);
+    saveProductBtn.addEventListener("click", saveProduct);
+    saveRouteBtn.addEventListener("click", saveRoute);
+    addFieldBtn.addEventListener("click", () => createMethodFieldRow());
+    saveMethodBtn.addEventListener("click", saveMethod);
+    saveSiteSettingsBtn.addEventListener("click", saveSiteSettings);
+    saveOrderStatusBtn.addEventListener("click", saveOrderChanges);
+    closeOrderSheetBtn.addEventListener("click", () => orderSheet.classList.remove("show"));
+    orderSheet.addEventListener("click", (e) => {
+      if(e.target === orderSheet) orderSheet.classList.remove("show");
+    });
+
+    logoutAdminBtn.addEventListener("click", async () => {
+      await signOut(auth);
+      showToast("تم تسجيل الخروج");
+    });
+
+    refreshBtn.addEventListener("click", async () => {
+      if(currentAdmin){
+        await loadDashboard();
+        showToast("تم تحديث البيانات");
+      }
+    });
+
+    backBtn.addEventListener("click", () => window.location.href = "index.html");
+    navHome.addEventListener("click", () => window.location.href = "index.html");
+    navOrders.addEventListener("click", () => window.location.href = "account.html");
+    navAdmin.addEventListener("click", () => window.location.href = "admin.html");
+
+    onAuthStateChanged(auth, async (user) => {
+      if(user){
+        try{
+          await handleAdminState(user);
+        } catch (error){
+          console.error(error);
+          showToast("تعذر تحميل لوحة الأدمن");
+        }
+      } else {
+        showLoginMode();
+      }
+    });
+  </script>
+</body>
+</html>
