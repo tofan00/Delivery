@@ -69,19 +69,55 @@
       right:auto;
     }
 
-    .side-pane{
+    .top-pane{
+      position:fixed;
+      top:-100%;
+      left:0;
+      width:100%;
+      height:78%;
+      background:#fff;
+      z-index:2150;
+      border-radius:0 0 28px 28px;
+      box-shadow:0 10px 30px rgba(0,0,0,.12);
+      transition:top .35s ease;
+    }
+    .top-pane.active{top:0}
+
+    .bottom-pane{
       position:fixed;
       bottom:-100%;
       left:0;
       width:100%;
-      height:78%;
+      height:82%;
       background:#fff;
       z-index:2150;
       border-radius:28px 28px 0 0;
       box-shadow:0 -10px 30px rgba(0,0,0,.12);
       transition:transform .35s ease;
     }
-    .side-pane.active{transform:translateY(-100%)}
+    .bottom-pane.active{transform:translateY(-100%)}
+
+    .popup-sheet{
+      position:fixed;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%) scale(.96);
+      width:min(92vw,680px);
+      max-height:80vh;
+      overflow:auto;
+      background:#fff;
+      border-radius:28px;
+      box-shadow:0 20px 60px rgba(0,0,0,.18);
+      z-index:2300;
+      opacity:0;
+      pointer-events:none;
+      transition:.25s ease;
+    }
+    .popup-sheet.active{
+      opacity:1;
+      pointer-events:auto;
+      transform:translate(-50%,-50%) scale(1);
+    }
 
     .badge{
       position:absolute;
@@ -115,22 +151,21 @@
       transition:width .3s ease;
     }
 
-    .main-header{
+    .header{
       background:#fff;
       position:sticky;
       top:0;
       z-index:1900;
-      box-shadow:0 2px 12px rgba(0,0,0,.04);
+      box-shadow:0 1px 10px rgba(0,0,0,.04);
       padding:14px 16px;
     }
 
-    .header-grid{
-      display:grid;
-      grid-template-columns: auto 1fr auto;
-      align-items:center;
-      gap:12px;
-      min-height:52px;
+    .header-row{
       position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      min-height:54px;
     }
 
     .header-left,
@@ -138,17 +173,13 @@
       display:flex;
       align-items:center;
       gap:14px;
-      z-index:2;
+      z-index:3;
       transition:transform .28s ease, opacity .28s ease;
+      min-width:90px;
     }
 
-    .header-left{
-      justify-self:start;
-    }
-
-    .header-right{
-      justify-self:end;
-    }
+    .header-left{justify-content:flex-start}
+    .header-right{justify-content:flex-end}
 
     .header-center{
       position:absolute;
@@ -157,69 +188,62 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      transition:opacity .25s ease, transform .28s ease;
-      z-index:1;
+      z-index:2;
+      transition:transform .28s ease, opacity .28s ease;
+      pointer-events:none;
     }
 
-    html[dir="ltr"] .header-center{
-      transform:translateX(-50%);
-    }
-
-    .header-logo{
-      height:40px;
+    .header-center img{
+      height:42px;
       object-fit:contain;
       display:block;
     }
 
-    .header-search-shell{
-      position:absolute;
-      left:16px;
-      right:16px;
-      top:50%;
-      transform:translateY(-50%);
+    .search-mini-wrap{
+      position:relative;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .search-mini-shell{
+      width:0;
       opacity:0;
-      pointer-events:none;
-      transition:.28s ease;
-      z-index:5;
+      overflow:hidden;
+      transition:width .28s ease, opacity .22s ease;
     }
 
-    .header-search-shell.open{
+    .search-mini-shell.open{
+      width:145px;
       opacity:1;
-      pointer-events:auto;
     }
 
-    .header-search-input{
+    .search-mini-input{
       width:100%;
-      height:44px;
+      height:38px;
       border:none;
       outline:none;
       background:#f3f4f6;
       border-radius:999px;
-      padding:0 18px;
-      font-size:13px;
+      padding:0 14px;
+      font-size:12px;
       font-weight:700;
       color:#111827;
     }
 
-    .header-grid.search-active .header-center{
-      opacity:0;
-      transform:translateX(-50%) scale(.96);
-      pointer-events:none;
+    .header-row.search-active .header-center{
+      transform:translateX(-50%) translateX(-34px);
+      opacity:.92;
+    }
+    .header-row.search-active .header-right{
+      transform:translateX(-22px);
     }
 
-    .header-grid.search-active .header-left{
-      transform:translateX(-10px);
-      opacity:.4;
+    html[dir="ltr"] .header-row.search-active .header-center{
+      transform:translateX(-50%) translateX(34px);
     }
-    .header-grid.search-active .header-right{
-      transform:translateX(-120px);
-    }
-
-    html[dir="ltr"] .header-grid.search-active .header-left{
-      transform:translateX(10px);
-    }
-    html[dir="ltr"] .header-grid.search-active .header-right{
-      transform:translateX(120px);
+    html[dir="ltr"] .header-row.search-active .header-right{
+      transform:translateX(22px);
     }
 
     .search-results-box{
@@ -240,9 +264,7 @@
       flex:1;
     }
 
-    .catSwiper{
-      overflow:hidden;
-    }
+    .catSwiper{overflow:hidden}
 
     .cat-icon-wrapper{
       width:80px;
@@ -325,7 +347,6 @@
       overflow:hidden;
       background:#f3f4f6;
     }
-
     .img-container img{
       width:100%;
       height:100%;
@@ -339,7 +360,6 @@
       inset:0;
       transition:opacity .45s ease, transform .45s ease;
     }
-
     .back-img{
       opacity:0;
       transform:scale(1.04);
@@ -351,7 +371,6 @@
         transform:scale(1);
       }
     }
-
     .product-card.touch-active .back-img{
       opacity:1;
       transform:scale(1);
@@ -451,9 +470,7 @@
       font-weight:700;
     }
 
-    .dashed-sep{
-      border-top:1px dashed #d1d5db;
-    }
+    .dashed-sep{border-top:1px dashed #d1d5db}
 
     .auth-chip{
       background:#f8fafc;
@@ -490,9 +507,9 @@
       accent-color:var(--primary);
     }
 
-    .checkout-bar{
+    .cart-checkout-bar{
       position:absolute;
-      bottom:8px;
+      bottom:10px;
       left:0;
       width:100%;
       padding:0 14px calc(8px + env(safe-area-inset-bottom));
@@ -546,9 +563,7 @@
       text-overflow:ellipsis;
     }
 
-    .section-slider{
-      position:relative;
-    }
+    .section-slider{position:relative}
     .section-slider .swiper-button-prev,
     .section-slider .swiper-button-next{
       width:38px;
@@ -577,6 +592,13 @@
       from{opacity:0;transform:translateY(24px)}
       to{opacity:1;transform:translateY(0)}
     }
+
+    @media (max-width:420px){
+      .search-mini-shell.open{width:126px}
+      .header-right{gap:10px; min-width:74px}
+      .header-left{gap:10px; min-width:74px}
+      .header-center img{height:38px}
+    }
   </style>
 </head>
 <body>
@@ -604,10 +626,10 @@
           <svg class="w-5 h-5 text-[#14454d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
           <span id="sidebarProfileText">الحساب والطلبات</span>
         </span>
-        <span class="text-gray-400 text-xs font-bold" data-i18n="open">فتح</span>
+        <span class="text-gray-400 text-xs font-bold">فتح</span>
       </button>
 
-      <button class="auth-chip w-full justify-between" onclick="openPane('cart')">
+      <button class="auth-chip w-full justify-between" onclick="openTopPane('cart')">
         <span class="flex items-center gap-2">
           <svg class="w-5 h-5 text-[#14454d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
           <span data-i18n="cart">السلة</span>
@@ -615,14 +637,24 @@
         <span id="sidebarCartCount" class="text-gray-400 text-xs font-bold">0</span>
       </button>
 
-      <button class="auth-chip w-full justify-between" onclick="openPane('wish')">
+      <button class="auth-chip w-full justify-between" onclick="openBottomPane('wish')">
         <span class="flex items-center gap-2">
           <svg class="w-5 h-5 text-[#14454d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
           <span data-i18n="wish">الأمنيات</span>
         </span>
         <span id="sidebarWishCount" class="text-gray-400 text-xs font-bold">0</span>
       </button>
+
+      <button class="auth-chip w-full justify-between" onclick="window.location.href='admin.html'">
+        <span class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-[#14454d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35A1.724 1.724 0 005.38 7.753c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.573-1.066z"></path><path stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          <span>الإعدادات</span>
+        </span>
+        <span class="text-gray-400 text-xs font-bold">فتح</span>
+      </button>
     </div>
+
+    <div id="sidebarDynamicMenuWrap" class="mb-5"></div>
 
     <div class="dashed-sep my-5"></div>
 
@@ -634,8 +666,8 @@
     </div>
   </aside>
 
-  <header class="main-header" id="siteHeader">
-    <div class="header-grid" id="headerGrid">
+  <header class="header" id="siteHeader">
+    <div class="header-row" id="headerRow">
       <div class="header-left">
         <button onclick="openSidebar()" class="text-gray-700" aria-label="menu">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -645,22 +677,24 @@
       </div>
 
       <div class="header-center">
-        <img id="headerLogo" src="https://up6.cc/2026/03/17733402856661.png" class="header-logo" alt="Logo">
+        <img id="headerLogo" src="https://up6.cc/2026/03/17733402856661.png" alt="Logo">
       </div>
 
       <div class="header-right">
-        <div class="relative cursor-pointer" onclick="openPane('cart')">
+        <div class="relative cursor-pointer" onclick="openTopPane('cart')">
           <svg class="w-7 h-7 text-[#14454d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
           <span id="cart-badge-header" class="badge">0</span>
         </div>
 
-        <button aria-label="search" onclick="toggleSearchBar()">
-          <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-        </button>
-      </div>
+        <div class="search-mini-wrap">
+          <button id="searchToggleBtn" aria-label="search" onclick="toggleSearchBar(event)">
+            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </button>
 
-      <div id="searchShell" class="header-search-shell">
-        <input id="searchInput" type="text" class="header-search-input" placeholder="ابحث داخل الموقع..." oninput="performSearch(this.value)">
+          <div id="searchShell" class="search-mini-shell">
+            <input id="searchInput" type="text" class="search-mini-input" placeholder="ابحث داخل الموقع..." oninput="performSearch(this.value)" onclick="event.stopPropagation()">
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -734,13 +768,13 @@
       <span class="text-[10px] font-bold" data-i18n="home">الرئيسية</span>
     </button>
 
-    <button class="flex flex-col items-center gap-1 text-gray-400 relative" onclick="openPane('cart')">
+    <button class="flex flex-col items-center gap-1 text-gray-400 relative" onclick="openTopPane('cart')">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
       <span id="cart-badge-bottom" class="badge">0</span>
       <span class="text-[10px]" data-i18n="cart">السلة</span>
     </button>
 
-    <button class="flex flex-col items-center gap-1 text-gray-400 relative" onclick="openPane('wish')">
+    <button class="flex flex-col items-center gap-1 text-gray-400 relative" onclick="openBottomPane('wish')">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
       <span id="wish-badge" class="badge">0</span>
       <span class="text-[10px]" data-i18n="wish">الأمنيات</span>
@@ -752,15 +786,15 @@
     </button>
   </nav>
 
-  <div id="cart-pane" class="side-pane p-4 sm:p-5">
+  <div id="cart-pane" class="top-pane p-4 sm:p-5">
     <div class="flex justify-between items-center mb-3 border-b pb-3">
       <h3 class="font-black text-lg text-[#14454d]" data-i18n="cart-header">سلة المشتريات</h3>
       <button onclick="closeAll()" class="text-3xl text-gray-300 leading-none">&times;</button>
     </div>
 
-    <div id="cart-content" class="h-[60%] overflow-y-auto space-y-4 pr-1 hidden-scrollbar pb-4"></div>
+    <div id="cart-content" class="h-[62%] overflow-y-auto space-y-4 pr-1 hidden-scrollbar pb-4"></div>
 
-    <div class="checkout-bar space-y-2">
+    <div class="cart-checkout-bar space-y-2">
       <div class="bg-gray-50 border border-gray-100 rounded-2xl px-4 py-3 flex items-center justify-between">
         <span class="text-sm text-gray-500 font-bold" data-i18n="selected-total">الإجمالي المحدد</span>
         <span id="cart-total" class="font-black text-[#14454d] text-lg">0 ₪</span>
@@ -770,13 +804,20 @@
     </div>
   </div>
 
-  <div id="wish-pane" class="side-pane p-6">
+  <div id="wish-pane" class="bottom-pane p-6">
     <div class="flex justify-between items-center mb-5 border-b pb-4">
       <h3 class="font-black text-lg text-[#14454d]" data-i18n="wish-header">قائمة الأمنيات</h3>
       <button onclick="closeAll()" class="text-3xl text-gray-300">&times;</button>
     </div>
-
     <div id="wish-content" class="h-[72%] overflow-y-auto hidden-scrollbar"></div>
+  </div>
+
+  <div id="menuPopup" class="popup-sheet">
+    <div class="p-5 border-b flex items-center justify-between">
+      <h3 id="menuPopupTitle" class="font-black text-lg text-[#14454d]">نافذة</h3>
+      <button onclick="closeMenuPopup()" class="text-3xl text-gray-300 leading-none">&times;</button>
+    </div>
+    <div id="menuPopupBody" class="p-5"></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -787,7 +828,15 @@
 
     const fallbackLogo = "https://up6.cc/2026/03/17733402856661.png";
     const fallbackBanner = "https://clickstore.pro/cdn/shop/files/click_offers_3.png?format=pjpg&v=1765388381&width=1100";
-    const EXTRA_SECTIONS_PATH = "settings1885/pageSections1885";
+
+    const PATHS = {
+      store: FIREBASE_PATHS_1885.settingsStore,
+      banners: FIREBASE_PATHS_1885.settingsBanners,
+      categories: FIREBASE_PATHS_1885.categories,
+      products: FIREBASE_PATHS_1885.products,
+      pageSections: "settings1885/pageSections1885",
+      menuItems: "settings1885/sidebarMenu1885"
+    };
 
     let lang = "ar";
     let cart = JSON.parse(localStorage.getItem(STORAGE_KEYS_1885.cart) || "[]");
@@ -795,6 +844,7 @@
     let categories = [];
     let products = [];
     let pageSections = [];
+    let menuItems = [];
     let storeSettings = {
       storeName: "متجر طوفان",
       storeNameEn: "Tofan Store",
@@ -818,7 +868,6 @@
         "buy-selected":"شراء المنتجات المحددة",
         "select-all":"تحديد الكل",
         "loading":"جاري التحميل...",
-        "open":"فتح",
         "buy":"شراء",
         "show-all":"عرض الكل",
         "empty-cart":"السلة فارغة حالياً",
@@ -851,7 +900,6 @@
         "buy-selected":"Buy Selected Products",
         "select-all":"Select All",
         "loading":"Loading...",
-        "open":"Open",
         "buy":"Buy",
         "show-all":"View All",
         "empty-cart":"Your cart is empty",
@@ -915,6 +963,66 @@
         .replaceAll("'","&#039;");
     }
 
+    function normalizeCategories(raw){
+      return Object.entries(raw || {}).map(([id, v]) => ({
+        id,
+        nameAr: v.nameAr || v.name || "",
+        nameEn: v.nameEn || "",
+        icon: v.icon || "box",
+        order: Number(v.order || 0),
+        enabled: v.enabled !== false
+      })).sort((a,b) => a.order - b.order);
+    }
+
+    function normalizeProducts(raw){
+      return Object.entries(raw || {}).map(([id, v]) => ({
+        id,
+        categoryId: v.categoryId || v.category || "",
+        name: v.name || v.nameAr || "",
+        nameAr: v.nameAr || v.name || "",
+        nameEn: v.nameEn || "",
+        desc: v.desc || v.descAr || "",
+        descAr: v.descAr || v.desc || "",
+        descEn: v.descEn || "",
+        price: Number(v.price || 0),
+        oldPrice: Number(v.oldPrice || 0),
+        image1: v.image1 || v.front || v.image || "",
+        image2: v.image2 || v.back || v.image || "",
+        images: Array.isArray(v.images) ? v.images : [],
+        order: Number(v.order || 0),
+        enabled: v.enabled !== false,
+        createdAt: Number(v.createdAt || 0)
+      })).filter(p => p.enabled).sort((a,b) => (a.order - b.order) || (b.createdAt - a.createdAt));
+    }
+
+    function normalizeSections(raw){
+      return Object.entries(raw || {}).map(([id, v]) => ({
+        id,
+        type: v.type || "banner",
+        titleAr: v.titleAr || v.title || "",
+        titleEn: v.titleEn || "",
+        image: v.image || "",
+        images: Array.isArray(v.images) ? v.images : [],
+        link: v.link || "#",
+        placement: v.placement || "after_categories",
+        order: Number(v.order || 0),
+        enabled: v.enabled !== false
+      })).filter(s => s.enabled).sort((a,b) => a.order - b.order);
+    }
+
+    function normalizeMenuItems(raw){
+      return Object.entries(raw || {}).map(([id, v]) => ({
+        id,
+        titleAr: v.titleAr || v.title || "",
+        titleEn: v.titleEn || "",
+        type: v.type || "link",
+        value: v.value || "",
+        popupHtml: v.popupHtml || "",
+        order: Number(v.order || 0),
+        enabled: v.enabled !== false
+      })).filter(i => i.enabled).sort((a,b) => a.order - b.order);
+    }
+
     function updateStoreUI(){
       const logo = storeSettings.storeLogoUrl || fallbackLogo;
       const banner = storeSettings.bannerTopUrl || fallbackBanner;
@@ -928,6 +1036,112 @@
       document.getElementById("sidebarStoreName").textContent = name;
     }
 
+    function getCategoryIconSvg(icon){
+      const icons = {
+        home: `<svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>`,
+        box: `<svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>`,
+        sun: `<svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>`,
+        shirt: `<svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M4 7l4-3 4 2 4-2 4 3-2 4v9a1 1 0 01-1 1H7a1 1 0 01-1-1v-9L4 7z"></path></svg>`,
+        fire: `<svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M12 3s4 3 4 7a4 4 0 11-8 0c0-2 1-4 4-7zm0 10a3 3 0 013 3 3 3 0 11-6 0c0-1.1.6-2.2 3-3z"></path></svg>`
+      };
+      return icons[icon] || icons.box;
+    }
+
+    function getCategoryName(cat){
+      return lang === "ar" ? (cat.nameAr || cat.name || "") : (cat.nameEn || cat.nameAr || cat.name || "");
+    }
+
+    function getProductName(p){
+      return lang === "ar" ? (p.nameAr || p.name || "") : (p.nameEn || p.nameAr || p.name || "");
+    }
+
+    function getProductDesc(p){
+      return lang === "ar" ? (p.descAr || p.desc || "") : (p.descEn || p.descAr || p.desc || "");
+    }
+
+    function getSectionTitle(sec){
+      return lang === "ar" ? (sec.titleAr || sec.title || "") : (sec.titleEn || sec.titleAr || sec.title || "");
+    }
+
+    function getMenuTitle(item){
+      return lang === "ar" ? (item.titleAr || item.title || "") : (item.titleEn || item.titleAr || item.title || "");
+    }
+
+    function renderUserBox(){
+      const box = document.getElementById("sidebarUserBox");
+      updateStoreUI();
+
+      if(currentUser){
+        const name = currentUser.displayName || currentUser.email || "User";
+        box.innerHTML = `
+          <div class="bg-[#14454d]/5 border border-[#14454d]/10 rounded-3xl p-4">
+            <div class="text-xs text-gray-400 font-bold mb-1">${t("welcome")}</div>
+            <div class="font-black text-[#14454d] text-base mb-3">${escapeHtml(name)}</div>
+            <button onclick="window.location.href='order.html'" class="w-full bg-[#14454d] text-white py-3 rounded-2xl font-black">${t("open-account")}</button>
+          </div>
+        `;
+        document.getElementById("sidebarProfileText").textContent = t("account-orders-title");
+      }else{
+        box.innerHTML = `
+          <div class="bg-gray-50 border border-gray-100 rounded-3xl p-4">
+            <div class="text-sm text-gray-500 font-bold mb-3">${t("account-login-text")}</div>
+            <button onclick="sessionStorage.setItem('login_redirect_1885','order.html'); window.location.href='login.html'" class="w-full bg-[#14454d] text-white py-3 rounded-2xl font-black">${t("login")}</button>
+          </div>
+        `;
+        document.getElementById("sidebarProfileText").textContent = t("account-orders-title");
+      }
+    }
+
+    function handleMenuItemClick(id){
+      const item = menuItems.find(x => x.id === id);
+      if(!item) return;
+
+      closeAll();
+
+      if(item.type === "link"){
+        if(/^https?:\/\//i.test(item.value)){
+          window.open(item.value, "_blank");
+        }else{
+          window.location.href = item.value || "#";
+        }
+        return;
+      }
+
+      if(item.type === "internal_page"){
+        window.location.href = item.value || "index.html";
+        return;
+      }
+
+      if(item.type === "category"){
+        setTimeout(() => scrollToCategorySection(item.value), 120);
+        return;
+      }
+
+      if(item.type === "popup_html"){
+        document.getElementById("overlay").style.display = "block";
+        openMenuPopup(getMenuTitle(item), item.popupHtml || "");
+      }
+    }
+
+    function renderSidebarDynamicMenu(){
+      const wrap = document.getElementById("sidebarDynamicMenuWrap");
+      if(!menuItems.length){
+        wrap.innerHTML = "";
+        return;
+      }
+
+      wrap.innerHTML = `
+        <div class="space-y-3">
+          ${menuItems.map(item => `
+            <button class="auth-chip w-full justify-between" onclick="handleMenuItemClick('${item.id}')">
+              <span class="truncate">${escapeHtml(getMenuTitle(item))}</span>
+              <span class="text-gray-400 text-xs font-bold">فتح</span>
+            </button>
+          `).join("")}
+        </div>
+      `;
+    }
+
     function applyLanguageTexts(){
       document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
       document.getElementById("lang-btn").innerText = lang === "ar" ? "E" : "ع";
@@ -938,76 +1152,13 @@
       });
       updateStoreUI();
       renderUserBox();
+      renderSidebarDynamicMenu();
       renderCategoriesSlider();
       renderProductsSections();
       renderCart();
       renderWishlist();
       renderDynamicSections();
     }
-
-    function openSidebar(){
-      closeAll();
-      document.getElementById("sidebar-menu").classList.add("open");
-      document.getElementById("overlay").style.display = "block";
-      closeSearchBar();
-    }
-
-    function openPane(id){
-      closeAll();
-      document.getElementById(`${id}-pane`).classList.add('active');
-      document.getElementById('overlay').style.display = 'block';
-      if(id === 'cart') renderCart();
-      if(id === 'wish') renderWishlist();
-      closeSearchBar();
-    }
-
-    function closeAll(){
-      document.getElementById('sidebar-menu').classList.remove('open');
-      document.querySelectorAll('.side-pane').forEach(p => p.classList.remove('active'));
-      const allPane = document.getElementById('category-all-pane');
-      if(allPane) allPane.classList.remove('active');
-      document.getElementById('overlay').style.display = 'none';
-    }
-
-    function toggleLang(){
-      lang = lang === 'ar' ? 'en' : 'ar';
-      applyLanguageTexts();
-    }
-
-    function openSearchBar(){
-      document.getElementById("headerGrid").classList.add("search-active");
-      document.getElementById("searchShell").classList.add("open");
-      setTimeout(() => document.getElementById("searchInput").focus(), 180);
-    }
-
-    function closeSearchBar(){
-      document.getElementById("headerGrid").classList.remove("search-active");
-      document.getElementById("searchShell").classList.remove("open");
-      document.getElementById("searchInput").value = "";
-      document.getElementById("searchResultsBox").style.display = "none";
-      document.getElementById("searchResultsBox").innerHTML = "";
-    }
-
-    function toggleSearchBar(){
-      const active = document.getElementById("searchShell").classList.contains("open");
-      if(active){
-        closeSearchBar();
-      }else{
-        openSearchBar();
-      }
-    }
-
-    document.addEventListener("click", function(e){
-      const header = document.getElementById("siteHeader");
-      const results = document.getElementById("searchResultsBox");
-      if(
-        document.getElementById("searchShell").classList.contains("open") &&
-        !header.contains(e.target) &&
-        !results.contains(e.target)
-      ){
-        closeSearchBar();
-      }
-    });
 
     function performSearch(query){
       const box = document.getElementById("searchResultsBox");
@@ -1020,10 +1171,10 @@
       }
 
       const filtered = products.filter(p => {
+        const cat = categories.find(c => c.id === p.categoryId);
         const text = [
           p.nameAr, p.nameEn, p.descAr, p.descEn,
-          categories.find(c => c.id === p.categoryId)?.nameAr || "",
-          categories.find(c => c.id === p.categoryId)?.nameEn || ""
+          cat?.nameAr || "", cat?.nameEn || ""
         ].join(" ").toLowerCase();
         return text.includes(q);
       }).slice(0, 8);
@@ -1059,33 +1210,6 @@
       }
     }
 
-    function getCategoryIconSvg(icon){
-      const icons = {
-        home: `<svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>`,
-        box: `<svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>`,
-        sun: `<svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>`,
-        shirt: `<svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M4 7l4-3 4 2 4-2 4 3-2 4v9a1 1 0 01-1 1H7a1 1 0 01-1-1v-9L4 7z"></path></svg>`,
-        fire: `<svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M12 3s4 3 4 7a4 4 0 11-8 0c0-2 1-4 4-7zm0 10a3 3 0 013 3 3 3 0 11-6 0c0-1.1.6-2.2 3-3z"></path></svg>`
-      };
-      return icons[icon] || icons.box;
-    }
-
-    function getCategoryName(cat){
-      return lang === "ar" ? (cat.nameAr || cat.name || "") : (cat.nameEn || cat.nameAr || cat.name || "");
-    }
-
-    function getProductName(p){
-      return lang === "ar" ? (p.nameAr || p.name || "") : (p.nameEn || p.nameAr || p.name || "");
-    }
-
-    function getProductDesc(p){
-      return lang === "ar" ? (p.descAr || p.desc || "") : (p.descEn || p.descAr || p.desc || "");
-    }
-
-    function getSectionTitle(sec){
-      return lang === "ar" ? (sec.titleAr || sec.title || "") : (sec.titleEn || sec.titleAr || sec.title || "");
-    }
-
     function renderCategoriesSlider(){
       const wrapper = document.getElementById("categories-swiper-wrapper");
       const enabledCats = categories.filter(c => c.enabled !== false);
@@ -1106,7 +1230,7 @@
         <div class="swiper-slide">
           <div class="grid grid-cols-3 gap-3">
             ${group.map(cat => `
-              <button class="cat-card flex flex-col items-center gap-2 ${isCategoryActive(cat.id) ? 'active' : ''}" onclick="scrollToCategorySection('${escapeHtml(cat.id)}')">
+              <button class="cat-card flex flex-col items-center gap-2" onclick="scrollToCategorySection('${escapeHtml(cat.id)}')">
                 <div class="cat-icon-wrapper">${getCategoryIconSvg(cat.icon || "box")}</div>
                 <span class="text-xs font-bold text-gray-600 line-clamp-1">${escapeHtml(getCategoryName(cat))}</span>
               </button>
@@ -1149,64 +1273,9 @@
       `).join("");
     }
 
-    function isCategoryActive(catId){
-      const saved = localStorage.getItem(STORAGE_KEYS_1885.selectedCategory);
-      return saved === catId;
-    }
-
     function scrollToCategorySection(catId){
-      localStorage.setItem(STORAGE_KEYS_1885.selectedCategory, catId);
-      renderCategoriesSlider();
       const sec = document.getElementById(`category-section-${catId}`);
       if(sec) sec.scrollIntoView({behavior:"smooth", block:"start"});
-    }
-
-    function normalizeProducts(raw){
-      return Object.entries(raw || {}).map(([key, val]) => ({
-        id: key,
-        categoryId: val.categoryId || val.category || "general",
-        name: val.name || val.nameAr || "Product",
-        nameAr: val.nameAr || val.name || "منتج",
-        nameEn: val.nameEn || val.name || "Product",
-        desc: val.desc || val.descAr || "",
-        descAr: val.descAr || val.desc || "",
-        descEn: val.descEn || val.desc || "",
-        price: Number(val.price || 0),
-        oldPrice: Number(val.oldPrice || 0),
-        image1: val.image1 || val.front || val.image || "",
-        image2: val.image2 || val.back || val.image || "",
-        images: Array.isArray(val.images) ? val.images : [],
-        enabled: val.enabled !== false,
-        createdAt: Number(val.createdAt || 0)
-      })).filter(p => p.enabled);
-    }
-
-    function normalizeCategories(raw){
-      return Object.entries(raw || {}).map(([key, val]) => ({
-        id: key,
-        name: val.name || val.nameAr || "Category",
-        nameAr: val.nameAr || val.name || "قسم",
-        nameEn: val.nameEn || val.name || "Category",
-        icon: val.icon || "box",
-        enabled: val.enabled !== false,
-        order: Number(val.order || 0)
-      })).sort((a, b) => a.order - b.order);
-    }
-
-    function normalizeSections(raw){
-      return Object.entries(raw || {}).map(([key, val]) => ({
-        id: key,
-        type: val.type || "banner",
-        title: val.title || "",
-        titleAr: val.titleAr || val.title || "",
-        titleEn: val.titleEn || val.title || "",
-        images: Array.isArray(val.images) ? val.images.filter(Boolean) : [],
-        image: val.image || "",
-        link: val.link || "#",
-        placement: val.placement || "after_categories",
-        enabled: val.enabled !== false,
-        order: Number(val.order || 0)
-      })).filter(s => s.enabled).sort((a, b) => a.order - b.order);
     }
 
     function renderProductCard(p, i = 0){
@@ -1349,16 +1418,16 @@
       }
 
       const betweenSections = pageSections.filter(s => s.placement === "between_categories");
-
       const pieces = [];
+
       enabledCats.forEach((cat, idx) => {
         const catProducts = products
           .filter(p => p.categoryId === cat.id)
-          .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+          .sort((a,b) => (a.order - b.order) || (b.createdAt - a.createdAt));
 
         if(!catProducts.length) return;
 
-        const firstFour = catProducts.slice(0, 4);
+        const firstFour = catProducts.slice(0,4);
         pieces.push(`
           <section class="mb-8" id="category-section-${escapeHtml(cat.id)}">
             <div class="flex justify-between items-center mb-5">
@@ -1387,16 +1456,22 @@
 
     function showAllCategoryProducts(catId){
       const cat = categories.find(c => c.id === catId);
-      const items = products
-        .filter(p => p.categoryId === catId)
-        .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+      const items = products.filter(p => p.categoryId === catId);
 
       if(!items.length){
         showToast(t("empty-category"));
         return;
       }
 
-      const html = `
+      let pane = document.getElementById("category-all-pane");
+      if(!pane){
+        pane = document.createElement("div");
+        pane.id = "category-all-pane";
+        pane.className = "bottom-pane p-6";
+        document.body.appendChild(pane);
+      }
+
+      pane.innerHTML = `
         <div class="flex justify-between items-center mb-5 border-b pb-4">
           <h3 class="font-black text-lg text-[#14454d]">${escapeHtml(getCategoryName(cat || {}))}</h3>
           <button onclick="closeAll()" class="text-3xl text-gray-300">&times;</button>
@@ -1407,15 +1482,6 @@
           </div>
         </div>
       `;
-
-      let pane = document.getElementById("category-all-pane");
-      if(!pane){
-        pane = document.createElement("div");
-        pane.id = "category-all-pane";
-        pane.className = "side-pane p-6";
-        document.body.appendChild(pane);
-      }
-      pane.innerHTML = html;
 
       closeAll();
       pane.classList.add("active");
@@ -1460,7 +1526,7 @@
       saveCart();
       updateBadges();
       renderCart();
-      openPane("cart");
+      openTopPane("cart");
       showToast(t("added-cart"));
     }
 
@@ -1633,34 +1699,15 @@
       }
     }
 
-    function renderUserBox(){
-      const box = document.getElementById("sidebarUserBox");
-      updateStoreUI();
-
-      if(currentUser){
-        const name = currentUser.displayName || currentUser.email || "User";
-        box.innerHTML = `
-          <div class="bg-[#14454d]/5 border border-[#14454d]/10 rounded-3xl p-4">
-            <div class="text-xs text-gray-400 font-bold mb-1">${t("welcome")}</div>
-            <div class="font-black text-[#14454d] text-base mb-3">${escapeHtml(name)}</div>
-            <button onclick="window.location.href='order.html'" class="w-full bg-[#14454d] text-white py-3 rounded-2xl font-black">${t("open-account")}</button>
-          </div>
-        `;
-        document.getElementById("sidebarProfileText").textContent = t("account-orders-title");
-      }else{
-        box.innerHTML = `
-          <div class="bg-gray-50 border border-gray-100 rounded-3xl p-4">
-            <div class="text-sm text-gray-500 font-bold mb-3">${t("account-login-text")}</div>
-            <button onclick="sessionStorage.setItem('login_redirect_1885','order.html'); window.location.href='login.html'" class="w-full bg-[#14454d] text-white py-3 rounded-2xl font-black">${t("login")}</button>
-          </div>
-        `;
-        document.getElementById("sidebarProfileText").textContent = t("account-orders-title");
-      }
-    }
-
-    async function loadStoreSettings1885(){
-      const storeSnap = await rtdb1885.ref(FIREBASE_PATHS_1885.settingsStore).get();
-      const bannersSnap = await rtdb1885.ref(FIREBASE_PATHS_1885.settingsBanners).get();
+    async function loadStoreData(){
+      const [storeSnap, bannersSnap, categoriesSnap, productsSnap, sectionsSnap, menuSnap] = await Promise.all([
+        rtdb1885.ref(PATHS.store).get(),
+        rtdb1885.ref(PATHS.banners).get(),
+        rtdb1885.ref(PATHS.categories).get(),
+        rtdb1885.ref(PATHS.products).get(),
+        rtdb1885.ref(PATHS.pageSections).get(),
+        rtdb1885.ref(PATHS.menuItems).get()
+      ]);
 
       const store = storeSnap.val() || {};
       const banners = bannersSnap.val() || {};
@@ -1671,21 +1718,11 @@
         storeLogoUrl: store.storeLogoUrl || fallbackLogo,
         bannerTopUrl: banners.topBannerUrl || store.topBannerUrl || fallbackBanner
       };
-    }
 
-    async function loadCategories1885(){
-      const snap = await rtdb1885.ref(FIREBASE_PATHS_1885.categories).get();
-      categories = normalizeCategories(snap.val() || {});
-    }
-
-    async function loadProducts1885(){
-      const snap = await rtdb1885.ref(FIREBASE_PATHS_1885.products).get();
-      products = normalizeProducts(snap.val() || {});
-    }
-
-    async function loadPageSections1885(){
-      const snap = await rtdb1885.ref(EXTRA_SECTIONS_PATH).get();
-      pageSections = normalizeSections(snap.val() || {});
+      categories = normalizeCategories(categoriesSnap.val() || {});
+      products = normalizeProducts(productsSnap.val() || {});
+      pageSections = normalizeSections(sectionsSnap.val() || {});
+      menuItems = normalizeMenuItems(menuSnap.val() || {});
     }
 
     function attachAuthListener(){
@@ -1699,15 +1736,9 @@
       try{
         setLoadingBar(true);
         attachAuthListener();
-
-        await Promise.all([
-          loadStoreSettings1885(),
-          loadCategories1885(),
-          loadProducts1885(),
-          loadPageSections1885()
-        ]);
-
+        await loadStoreData();
         updateStoreUI();
+        renderSidebarDynamicMenu();
         renderCategoriesSlider();
         renderProductsSections();
         renderDynamicSections();
